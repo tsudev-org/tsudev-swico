@@ -247,7 +247,7 @@ assets/                     Logo gốc + biến thể sinh tự động (icon, f
 packaging/
   tools/make-assets.py      Sinh mọi biến thể của logo từ file gốc
 tests/
-  unittests/                net8.0          ← 298 test, chạy được trên mọi nền tảng
+  unittests/                net8.0          ← xUnit, 179 ca kiểm tra, chạy được trên mọi nền tảng
 ```
 
 ### Vì sao tách `Core` khỏi Windows?
@@ -256,7 +256,7 @@ tests/
 
 1. **Kiểm thử được** - toàn bộ logic nghiệp vụ (quét dấu hiệu crack, tính điểm
    rủi ro, phân loại phần mềm, dựng HTML/XLSX) unit-test được **không cần máy
-   Windows**. 298 test chạy trên Linux.
+   Windows**. 179 ca kiểm tra xUnit chạy trên Linux.
 2. **Dễ audit** - mọi lệnh gọi hệ thống tập trung trong đúng một file
    (`WindowsAdapters.cs`). Với một công cụ đọc dữ liệu nhạy cảm và đòi quyền
    Administrator, việc rà soát bảo mật làm được nhanh là điều thiết yếu.
@@ -282,6 +282,11 @@ trên máy không có mạng. Chi tiết: [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY
 
 ## Tình trạng kiểm thử - trung thực
 
+> **Cách đọc các con số dưới đây.** Từ phiên S006 bộ test chạy bằng **xUnit**,
+> nên đơn vị đếm là **ca kiểm tra** (`[Fact]` / mỗi dòng `[Theory]`), không còn
+> là từng phép `Check()` như trước. Vì vậy các con số nhỏ hơn bảng cũ trong khi
+> **không phép kiểm nào bị bỏ**: 298 phép kiểm cũ nay nằm gọn trong 179 ca.
+
 | Thành phần | Trạng thái |
 |---|---|
 | Models + JSON round-trip | ✅ Đã test |
@@ -293,15 +298,15 @@ trên máy không có mạng. Chi tiết: [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY
 | Chống HTML injection | ✅ Đã test |
 | XLSX: quy đổi tên cột, nhận diện số, tên sheet | ✅ Đã test |
 | Dashboard đọc sâu đa máy | ✅ Đã test |
-| Logo, favicon & chữ ký thương hiệu | ✅ 11 test |
-| So sánh phiên bản CalVer | ✅ 27 test (đọc được cả dạng cũ lẫn dạng mới) |
-| Quy ước đặt tên phiên bản (`ReleaseName`) | ✅ 33 test, gồm ca quét **cả tháng** 124 số hiệu |
-| Cổng kiểm tra cập nhật (gồm nhánh bản portable) | ✅ 17 test |
-| Đọc bản phát hành GitHub + đối chiếu mã băm | ✅ 24 test, gồm nhận **cả hai** dạng tên tệp |
+| Logo, favicon & chữ ký thương hiệu | ✅ 5 ca |
+| So sánh phiên bản CalVer | ✅ 29 ca (đọc được cả dạng cũ lẫn dạng mới) |
+| Quy ước đặt tên phiên bản (`ReleaseName`) | ✅ 22 ca, gồm ca quét **cả tháng** 124 số hiệu |
+| Cổng kiểm tra cập nhật (gồm nhánh bản portable) | ✅ 9 ca |
+| Đọc bản phát hành GitHub + đối chiếu mã băm | ✅ 8 ca, gồm nhận **cả hai** dạng tên tệp |
 | Bộ luật tách rời (nạp, kiểm tra, quay về mặc định) | ✅ Đã test |
-| CLI parse tham số | ✅ 21 test |
-| Mã thoát (gồm ca hồi quy Office chưa kích hoạt) | ✅ 11 test |
-| Tiến trình quét: thứ tự bước, huỷ giữa chừng, mã 130 | ✅ 24 test |
+| CLI parse tham số | ✅ 12 ca |
+| Mã thoát (gồm ca hồi quy Office chưa kích hoạt) | ✅ 4 ca |
+| Tiến trình quét: thứ tự bước, huỷ giữa chừng, mã 130 | ✅ 9 ca |
 | **Con quay & màu trên terminal thật** | ⚠️ **CHƯA tự động hoá** - cần mắt người |
 | **XLSX mở bằng Excel thật** | ⚠️ **CHƯA kiểm chứng** - môi trường dev không có Excel |
 | **Adapter WMI/Registry thực tế** | ⚠️ **CHƯA chạy thử trên Windows** |
@@ -314,7 +319,7 @@ thật**. Cần xác nhận tên thuộc tính WMI, đặc biệt `MSFT_MpComput
 `MSFT_MpThreat`) và `MSFT_ScheduledTask`.
 
 Nếu có lỗi, hầu hết sẽ nằm gọn trong `WindowsAdapters.cs` - logic nghiệp vụ đã
-được 298 test kiểm chứng nên không cần đụng tới.
+được bộ test xUnit kiểm chứng nên không cần đụng tới.
 
 **Phần hiển thị tiến trình cũng có một khoảng chưa tự động hoá được.** Thứ tự
 các bước, việc huỷ giữa chừng và mã thoát 130 đều có test chạy trên Linux; CI

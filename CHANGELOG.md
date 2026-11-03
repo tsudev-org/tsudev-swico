@@ -6,6 +6,21 @@
 
 ## [Chưa phát hành]
 
+### Nội bộ
+
+- **Bộ test chạy bằng xUnit.** `tests/unittests/Program.cs` (1313 dòng, 298 phép
+  `Check()` tự đếm trong một file) tách thành 22 lớp test theo chủ đề. Cách chạy
+  đổi từ `dotnet run --project tests/unittests` sang
+  **`dotnet test tests/unittests`**; `build.ps1` và cả hai workflow CI đã theo.
+
+  - Cổng `--validate-release-name` mà `release.yml` gọi trước khi build **giữ
+    nguyên** - vẫn là `dotnet run --project tests/unittests -- ...`.
+  - Một bảng kiểm biên điểm rủi ro trước đây nằm sau một `break` nên **chưa bao
+    giờ chạy**; nay là `[Theory]` tám dòng chạm đúng từng mốc điểm, cả tám xanh.
+  - Không phép kiểm nào bị bỏ: 179 ca xUnit bao trọn 298 phép kiểm cũ.
+
+  Không có thay đổi nào đối với người dùng cuối.
+
 ### Thay đổi
 
 - **Báo cáo dùng token giao diện thay cho màu viết cứng.**

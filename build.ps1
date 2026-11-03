@@ -31,7 +31,7 @@ if ($SkipTests) {
     Write-Host "`n[1/4] Bo qua test (-SkipTests)." -ForegroundColor DarkYellow
 } else {
     Write-Host "`n[1/4] Chay unit test (Core - khong can Windows API)" -ForegroundColor Cyan
-    dotnet run --project tests/unittests -c $Configuration
+    dotnet test tests/unittests -c $Configuration
     if ($LASTEXITCODE -ne 0) { throw 'Unit test THAT BAI - dung build.' }
 }
 

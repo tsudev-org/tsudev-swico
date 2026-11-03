@@ -1,15 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Bo test tu che: in ket qua ra console, exit code khac 0 khi that bai.
-         Chay bang lenh: dotnet run  (kem tham so  project  tro toi thu muc nay)
-         Chay duoc tren Linux/macOS vi chi tham chieu Core (net8.0). -->
+    <!-- Bo test xUnit. Chay bang:  dotnet test tests/unittests
+         Chay duoc tren Linux/macOS vi chi tham chieu Core (net8.0).
+
+         OutputType=Exe + GenerateProgramFile=false: project nay VUA la bo test
+         (dotnet test), VUA la cong kiem tra quy uoc dat ten chay qua
+         `dotnet run` (xem Program.cs). Neu de xUnit tu sinh entry point thi
+         `dotnet run` khong con cho nao de cam cong do. -->
     <OutputType>Exe</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Tsudev.Audit.Tests</RootNamespace>
+    <AssemblyName>Tsudev.Audit.Tests</AssemblyName>
     <IsPackable>false</IsPackable>
-    <!-- Bo test dung top-level statements, khong can phan tich CA o day. -->
+    <IsTestProject>true</IsTestProject>
+    <!-- Bo test khong can phan tich CA - giu nguyen quyet dinh cu. -->
     <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Tsudev.Audit.Core/Tsudev.Audit.Core.csproj" />
   </ItemGroup>

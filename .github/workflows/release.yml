@@ -81,7 +81,7 @@ jobs:
       # Bo test PHAI chay truoc khi dong goi. Phat hanh mot ban chua qua test
       # la cach nhanh nhat de mat long tin vao ca quy trinh.
       - name: Unit tests
-        run: dotnet run --project tests/unittests -c Release
+        run: dotnet test tests/unittests -c Release --logger "console;verbosity=normal"
 
       - name: Publish exe
         shell: pwsh
