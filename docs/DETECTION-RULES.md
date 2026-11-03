@@ -72,7 +72,7 @@ Cùng phiên bản thì không cảnh báo, để không làm nhiễu mỗi lầ
 vi src/Tsudev.Audit.Core/Rules/detection-rules.json
 
 # 2. Kiểm chứng - bộ test bắt được bộ luật rỗng và sai định dạng
-dotnet run --project tests/unittests -c Release
+dotnet test tests/unittests -c Release
 ```
 
 Với người dùng cuối chỉ cần cập nhật luật: tải file `detection-rules.json` mới,

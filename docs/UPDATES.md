@@ -132,8 +132,8 @@ bằng `DD × 100 + NN`, nên `1901 < 1902 < 2001` - đúng thứ tự. Bỏ đ�
 bản 1 thành `91`, đọc ngược lại ra **ngày 0 bản 91**, và tên file cài đặt sinh ra
 từ đó là tên không ai tìm thấy.
 
-Điều này được khoá lại bằng test quét **cả tháng** (124 số hiệu) - xem mục `13b`
-trong `tests/unittests/Program.cs`.
+Điều này được khoá lại bằng test quét **cả tháng** (124 số hiệu) - xem
+`ReleaseNameTests.Quet_ca_thang` trong `tests/unittests/ReleaseNameTests.cs`.
 
 ### Đọc được cả dạng cũ
 

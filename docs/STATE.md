@@ -4,8 +4,8 @@
 > Phiên mới đọc `AGENTS.md` (quy ước bắt buộc) rồi tới **file này** - trước cả README.
 > Thứ tự đọc đầy đủ: `docs/CONTINUITY.md` mục 0.
 
-- **Cập nhật lần cuối:** 2026-08-20 (phiên S004)
-- **Phiên gần nhất:** S004 - `docs/journal/S004-2026-08-20.md`
+- **Cập nhật lần cuối:** 2026-08-20 (phiên S006)
+- **Phiên gần nhất:** S006 - `docs/journal/S006-2026-08-20.md`
 - **Quy ước bắt buộc:** `AGENTS.md` - **đọc trước cả file này**
 - **Giai đoạn:** đã phát hành `v26.8.18.2`; PR winget đang chờ gỡ một nhãn lỗi;
   `26.8.1901` đã sẵn sàng trong repo nhưng **chưa gắn tag, chưa phát hành**;
@@ -14,11 +14,13 @@
 > ## ⚡ VIỆC ĐẦU TIÊN CỦA PHIÊN MỚI
 >
 > **Đọc `AGENTS.md` trước, rồi tới đây.** Bàn giao gần nhất:
-> `logs/handover/20260820-02_khep-phien-S004.md`.
+> `logs/handover/20260820-04_khep-phien-S006.md`.
 >
-> **Mục 3.0 trước đã** - phiên S004 để lại **4 commit chưa push**. Chúng chưa qua
-> CI, nên mọi câu "CI xanh" dưới đây đang nói về commit `200c0fd` của phiên S003,
-> KHÔNG phải trạng thái hiện tại.
+> **Commit và push trước đã** - phiên S006 để lại working tree **chưa commit**
+> (bộ test chuyển sang xUnit, mục **3.5-1**). Chưa qua CI, nên mọi câu "CI xanh"
+> dưới đây đang nói về commit `a3dbc93` của phiên S005, KHÔNG phải trạng thái
+> hiện tại. Điều cần nhìn ngay sau khi push: bước `Unit tests` nay chạy bằng
+> `dotnet test` và **chưa từng chạy trên runner GitHub**.
 >
 > Phiên S004 đã **đổi quy ước đặt tên phiên bản** sang `docs/DESIGN_SYSTEM.md`
 > mục 6 (quyết định **D-S004-1**): `VersionPrefix` nay là **`26.8.1901`**, file
@@ -27,10 +29,6 @@
 >
 > Sau đó **xem mục 3.1** - PR winget #419878 đang vướng nhãn
 > `Validation-Executable-Error` và bot chưa giải thích nguyên nhân.
->
-> Mọi việc của phiên S003 đã khép: code **đã push**, CI run
-> [32224326731](https://github.com/tsudev-tsudev/swico/actions/runs/32224326731)
-> **xanh** cho commit `200c0fd`.
 
 ---
 
@@ -38,7 +36,9 @@
 
 ```
 Build     : ✅ 0 cảnh báo (TreatWarningsAsErrors bật) - đo trên máy dev Linux
-Test      : ✅ 298 PASS, 0 FAIL - đo trên máy dev Linux
+Test      : ✅ xUnit - Passed 179, Failed 0 - đo trên máy dev Linux
+            (`dotnet test tests/unittests -c Release`; 179 ca bao trọn 298
+            phép kiểm của bộ tự chế cũ, xem mục 3.5)
 CI        : ✅ run 32360493509 XANH cả hai job (Linux + smoke test Windows) cho
             commit `ce24691`. Commit QU-5 (`c4dec40`) và QU-4 đã đẩy sau đó -
             xem `gh run list`, đừng tin mốc ghi cứng này. Đây là lần đầu luật đặt tên MỚI + `VersionPrefix`
@@ -192,13 +192,10 @@ Chi tiết: `docs/SIGNING.md`.
 
 Xếp theo giá trị giảm dần:
 
-1. **Chuyển bộ test sang xUnit.** Hiện là bộ tự chế đếm pass/fail thủ công
-   (`tests/unittests/Program.cs`, **1313 dòng** top-level statements). 298 ca
-   trong một file là quá nhiều cho một file. xUnit cho báo lỗi tử tế, chạy song song,
-   tích hợp CI chuẩn.
+1. ✅ **XONG (S006) - chuyển bộ test sang xUnit.** Xem mục **3.5-1** ngay dưới.
 2. **Tách file gộp nhiều class thành file riêng** (`InventoryCollectors.cs` 4 class,
    `LicenseCollectors.cs` 5 class). Đã hoãn từ Phase 1 vì lúc đó chưa có test;
-   nay có 298 test làm lưới an toàn.
+   nay có bộ test xUnit làm lưới an toàn.
 3. **Logging có cấu trúc** thay `Console.WriteLine` rải rác, kèm tuỳ chọn ghi log
    ra file cho tình huống hỗ trợ từ xa.
 4. **`--json-only`** cho tích hợp máy-đọc-máy.
@@ -209,6 +206,47 @@ Xếp theo giá trị giảm dần:
    thẩm mỹ.
 5. **NativeAOT** - cân nhắc, nhưng đọc mục 4 trước: cắt tỉa đã hỏng, NativeAOT
    gần như chắc chắn cũng hỏng vì cùng nguyên nhân (WMI qua COM + phản chiếu).
+
+### 3.5-1 ✅ Bộ test chạy bằng xUnit (S006, 20/08/2026)
+
+`tests/unittests/Program.cs` **1313 dòng** top-level statements với 298 phép
+`Check()` tự đếm nay là một project xUnit gồm **22 lớp test theo chủ đề** (26
+file kể cả phần dùng chung), tổng **179 ca kiểm tra**, `Failed: 0`.
+
+**Cách chạy đổi:**
+
+```bash
+dotnet test tests/unittests -c Release          # trước: dotnet run --project ...
+```
+
+`build.ps1`, `ci.yml`, `release.yml` đã đổi theo.
+
+**Vì sao con số tụt từ 298 xuống 179 mà không mất gì.** Đơn vị đếm đổi: 298 là
+số phép `Check()`, 179 là số **ca kiểm tra** xUnit (`[Fact]` + mỗi dòng
+`[Theory]`). Các phép kiểm gắn bó với nhau được gom vào cùng một ca. Đã đối
+chiếu **từng chuỗi nhãn** của 298 phép kiểm cũ với mã mới: không nhãn nào biến
+mất ngoài các dòng tiêu đề `=== N. ... ===` in ra console (không còn cần) và
+mấy nhãn bị tách nhỏ thành nhiều dòng `[InlineData]`.
+
+**Một ca test trước đây KHÔNG hề chạy, nay chạy thật.** Bảng biên điểm rủi ro ở
+mục 3 cũ nằm trong một `foreach` có `break` ngay sau vòng đầu, nên bảy mốc
+`14 / 15 / 39 / 40 / 69 / 70 / 100` chưa bao giờ được kiểm. Nay là
+`RiskScoringTests.Bien_cua_tung_nhan_diem`, một `[Theory]` tám dòng cộng đúng
+trọng số từng nhóm để chạm chính xác từng mốc. Cả tám đều xanh.
+
+**Ba điều KHÔNG được "dọn cho gọn":**
+
+| Đừng động vào | Vì sao |
+|---|---|
+| `Program.cs` vẫn còn `Main` + `OutputType=Exe` + `GenerateProgramFile=false` | Cổng `--validate-release-name` mà `release.yml` gọi **trước khi build** chạy qua `dotnet run`. Để xUnit tự sinh entry point là mất cổng đó. Hai đường chạy không đụng nhau: `dotnet test` không gọi `Main`. |
+| `[assembly: CollectionBehavior(DisableTestParallelization = true)]` | `DateDisplayTests` đổi `CultureInfo.CurrentCulture` sang `th-TH`/`de-DE`; `Infected.Lic`/`Infected.Html` là dữ liệu dùng chung. Chạy song song là kết quả bấp bênh. Cả bộ chạy dưới 1 giây nên không đổi lại được gì. |
+| `Infected.FreshLicenseReport()` ở các ca ghi `.xlsx` | `XlsxWriter.Write` **đặt lại** `Title` cho bảng chưa có tên, tức nó sửa báo cáo dùng chung. Ca nào ghi file phải lấy bản riêng. |
+
+**Cấu trúc mới** (`tests/unittests/`): `TestFixtures.cs` giữ máy giả lập bị
+nhiễm + báo cáo dùng chung + `FakeFeed`/`CancelAfterSink`; `GlobalUsings.cs`;
+`AssemblyInfo.cs`; `Program.cs` (chỉ còn cổng đặt tên); 22 file `*Tests.cs`
+đặt tên theo vùng chức năng, mỗi file mở đầu bằng chú thích trỏ về mục tương
+ứng của bộ test cũ.
 
 ### 3.6 ⬜ Phát hành `26.8.1901` - sẵn sàng, chờ quyết định
 
@@ -263,8 +301,8 @@ dùng, không có thì rơi xuống font hệ thống - **không tải webfont**
 | `@media (prefers-color-scheme:dark)` | `dark` | `DESIGN_SYSTEM.md` mục 1 bắt buộc chọn chế độ theo hệ điều hành |
 | `@media print` | `light` | **Ép về sáng.** Thiếu khối này, máy đang ở chế độ tối sẽ in ra tờ giấy đen kín mực |
 
-> ⚠️ **Đây là đảo ngược một hành vi từng bị test khóa.** `tests/unittests/Program.cs`
-> trước có câu `"KHONG con dark-mode tu dong"`. Truy lại thì đó không phải quyết
+> ⚠️ **Đây là đảo ngược một hành vi từng bị test khóa.** Bộ test cũ
+> (`tests/unittests/Program.cs` trước phiên S006) có câu `"KHONG con dark-mode tu dong"`. Truy lại thì đó không phải quyết
 > định sản phẩm - `docs/journal/S001` mục "viết lại lớp Rendering" chỉ **mô tả**
 > bản dựng lại. Chủ project đã quyết theo quy ước, 20/08/2026.
 

@@ -58,7 +58,7 @@ cd swico
 .\build.ps1
 ```
 
-Kỳ vọng: test báo `64 PASS, 0 FAIL`, rồi sinh ra `publish\swico.exe`.
+Kỳ vọng: test báo `Failed: 0`, rồi sinh ra `publish\swico.exe`.
 
 > Dùng `git bundle` thay vì zip thư mục vì nó giữ nguyên lịch sử git. Nếu sau
 > này bạn tạo repo GitHub thật, chỉ cần `git remote add` rồi `git push` là toàn
@@ -90,7 +90,7 @@ Rồi trên Windows `git clone` như bình thường.
 | # | Việc cần làm | Kỳ vọng | Kết quả thật |
 |---|---|---|---|
 | A1 | `dotnet build Tsudev.SystemAudit.sln -c Release` | Không lỗi. Gói `System.Management` restore được. | |
-| A2 | `dotnet run --project tests/unittests -c Release` | `64 PASS, 0 FAIL` | |
+| A2 | `dotnet test tests/unittests -c Release` | `Passed: 179, Failed: 0` | |
 | A3 | Nháy đúp `publish\swico.exe` | **Hiện hộp thoại UAC** (do `app.manifest`) | |
 | A4 | `.\publish\swico.exe --help` | In danh sách tham số bằng tiếng Việt có dấu, không lỗi font | |
 | A5 | Chạy **không** quyền Administrator | Hiện cảnh báo, vẫn chạy, không sập | |

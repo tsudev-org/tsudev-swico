@@ -117,7 +117,8 @@ Thứ tự này đúng ở **mọi** nơi so sánh - `VersionNumber` của dự 
 
 > Điều này được khoá lại bằng một ca test **quét cả tháng**: 31 ngày × 4 bản =
 > 124 số hiệu, mỗi số phải viết-ra-đọc-lại nguyên vẹn, qua được `Validate`, và
-> giữ đúng thứ tự tăng dần. Xem mục `13b` trong `tests/unittests/Program.cs`.
+> giữ đúng thứ tự tăng dần. Xem `ReleaseNameTests.Quet_ca_thang` trong
+> `tests/unittests/ReleaseNameTests.cs`.
 
 ## 4. Số hiệu này đi tới đâu
 

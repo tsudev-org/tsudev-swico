@@ -167,7 +167,8 @@ khi làm installer, vì mọi thứ phía sau neo vào đây:
 - Namespace `Tsudev.Audit.*` - đổi hay giữ? (đổi = sửa toàn bộ file + test)
 - Tên assembly `tsudev-audit.exe` - đổi hay giữ?
 - Tên miền: bộ test hiện **khẳng định** báo cáo HTML phải chứa `https://tsudev.com`
-  (`tests/unittests/Program.cs:174`). Nếu đổi sang tên miền khác thì phải sửa test.
+  (`tests/unittests/BrandingTests.cs` + `HtmlRenderTests.cs`). Nếu đổi sang tên
+  miền khác thì phải sửa test.
 - Giấy phép mã nguồn: chưa chốt. Đề xuất **Apache-2.0** theo artifact - có điều
   khoản bảo vệ nhãn hiệu, nghĩa là người khác fork được mã nhưng **không được
   phát hành dưới tên của bạn**. Với một tên thương hiệu mới toanh, điều đó đáng giá.

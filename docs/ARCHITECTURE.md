@@ -37,8 +37,12 @@ Giữ nguyên tinh thần của quy ước: mỗi file một trách nhiệm, hà
 tách ra dùng chung, tên theo chuẩn ngôn ngữ (C# = `PascalCase`).
 
 > Còn tồn đọng đúng theo quy ước "file > 400 dòng phải cân nhắc tách":
-> `tests/unittests/Program.cs` (**1049 dòng**), `InventoryCollectors.cs` (4 class),
-> `LicenseCollectors.cs` (5 class). Đã nằm trong hàng đợi - `docs/STATE.md` mục 3.5.
+> `InventoryCollectors.cs` (4 class), `LicenseCollectors.cs` (5 class).
+> Đã nằm trong hàng đợi - `docs/STATE.md` mục 3.5.
+>
+> `tests/unittests/Program.cs` (1313 dòng) đã được xử lý ở phiên S006: bộ test
+> chuyển sang **xUnit** và tách thành 22 file theo chủ đề. `Program.cs` nay chỉ
+> còn cổng `--validate-release-name`.
 
 ## 4. Ràng buộc bên ngoài chi phối kiến trúc
 

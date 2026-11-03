@@ -15,15 +15,15 @@
 > **`docs/STATE.md` thắng**. File này chỉ trỏ tới đó, không chép lại nội dung
 > (`AGENTS.md` mục 1: mỗi tri thức ghi một lần duy nhất).
 
-- **Phiên gần nhất:** S005 - 20/08/2026
-- **Bàn giao gần nhất:** `logs/handover/20260820-03_khep-phien-S005.md`
+- **Phiên gần nhất:** S006 - 20/08/2026
+- **Bàn giao gần nhất:** `logs/handover/20260820-04_khep-phien-S006.md`
 
 ## Hàng đợi task (làm từ trên xuống)
 
 Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái.
 
-> **Việc làm được ngay, không cần ai:** `3.5`, `QU-7`. Mọi việc còn lại đều
-> chặn ở người dùng hoặc bên ngoài - xem cột lý do.
+> **Việc làm được ngay, không cần ai:** `3.5` (mục 1 đã xong), `QU-7`. Mọi việc
+> còn lại đều chặn ở người dùng hoặc bên ngoài - xem cột lý do.
 
 - [ ] **QU-2** ⛔ Nhờ người dùng kiểm **Inno Setup** biên dịch được với
       `VersionInfoVersion=26.9.0901` (ngày một chữ số) - mục **F7/F8** trong
@@ -35,9 +35,11 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
 - [ ] **3.2** ⛔ Kiểm chứng chức năng tự cập nhật trên Windows thật - cần người dùng
 - [ ] **3.3** ⛔ Kiểm bằng mắt phần hiển thị tiến trình (mục H) - cần người dùng
 - [ ] **3.4** ⛔ Cấu hình SignPath sau khi được duyệt - chờ bên ngoài
-- [ ] **3.5** ⬜ Việc kỹ thuật (xUnit ▸ tách file gộp ▸ logging ▸ `--json-only`)
-      - **làm được ngay, không cần người dùng**. Đáng giá nhất: chuyển sang xUnit
-      (`tests/unittests/Program.cs` nay **1313 dòng** trong một file).
+- [ ] **3.5** ⬜ Việc kỹ thuật - **làm được ngay, không cần người dùng**.
+      ~~xUnit~~ ✅ xong ở S006 (`docs/STATE.md` mục 3.5-1). Còn lại, theo thứ tự
+      giá trị: tách file gộp (`InventoryCollectors.cs` 4 class,
+      `LicenseCollectors.cs` 5 class) ▸ logging có cấu trúc ▸ `--json-only`
+      ▸ căn cột dòng tiến trình.
 - [ ] **3.6** ⬜ Quyết định có phát hành `26.8.1901` không - **đọc mục 4.7 trước**
 - [ ] **QU-6** ⛔ Quyết có đưa **4 sắc chữ ký thương hiệu** `tsudev` vào
       `tokens/design-tokens.json` không - hiện là bốn giá trị màu **duy nhất**
@@ -61,6 +63,14 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
 | (không có) | | |
 
 ## Đã hoàn thành (mới nhất trên cùng)
+
+- 20/08/2026 - **3.5-1 XONG:** bộ test chuyển sang **xUnit**. 1313 dòng
+  top-level statements tách thành 22 lớp test theo chủ đề. Chạy bằng
+  `dotnet test tests/unittests` (`build.ps1` + hai workflow CI đã đổi theo);
+  cổng `--validate-release-name` giữ nguyên qua `dotnet run`. **179 PASS,
+  0 FAIL** - 179 ca xUnit bao trọn 298 phép kiểm cũ, đã đối chiếu từng nhãn.
+  Một bảng kiểm biên điểm rủi ro trước nay nằm sau `break` nên chưa từng chạy,
+  nay chạy thật. Chi tiết + ba điều không được dọn: `docs/STATE.md` mục 3.5-1.
 
 - 20/08/2026 - **QU-4 XONG:** báo cáo HTML + `.xlsx` chạy hoàn toàn bằng
   `tokens/` (nhúng vào assembly, sinh biến CSS nội tuyến). Thêm chế độ tối theo
