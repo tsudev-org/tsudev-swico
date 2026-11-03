@@ -1,0 +1,49 @@
+# Danh sách loại trừ khi chuyển bản sao repo này sang máy khác:
+#
+#   rsync -az --exclude-from=.rsync-exclude <nguon>:projects/tsudev-swico/ ~/projects/tsudev-swico/
+#
+# ⚠️ ĐÂY KHÔNG PHẢI .gitignore. Đã kiểm ngày 03/11/2026: repo này KHÔNG có
+# file secret nào bị git bỏ qua mà phải đi theo (.gitignore loại `*secret*`,
+# `*credential*`, `*.pfx` - nhưng không file nào như thế TỒN TẠI). Toàn bộ nhóm
+# ignore đều là bin/obj/dist/publish, sinh lại được.
+#
+# Lịch sử: khi khảo sát ngày 30/10/2026 repo này có 42 file lệch chưa có trên
+# origin (15 sửa + 27 chưa theo dõi, gồm cả cây test `tests/unittests/*.cs`).
+# Ngày 03/11/2026 chúng đã được commit và push, nên cây làm việc hiện SẠCH và
+# tầng 1 (git) lại là bằng chứng mạnh như thiết kế. `git.wip.sha256` do
+# scripts/host-manifest.sh in ra vẫn giữ nguyên tác dụng cho lần sau: nếu lúc
+# chuyển mà cây làm việc lại có việc chưa commit, chỉ so SỐ file lệch thì một
+# file sai trong đó đi qua mà không ai thấy. Xem §12.3 của sổ tay.
+#
+# Số đo ngày 03/11/2026: 278MB trên giấy -> 8,1MB thật sau khi loại.
+
+# ── Bản dựng .NET. 158M trong src/Tsudev.Audit.Cli chỉ là bin/obj.
+# Dựng lại bằng `dotnet build`.
+bin/
+obj/
+
+# ── Artifact đóng gói của bản dựng CỤC BỘ (105M):
+#   publish/swico.exe                        76M
+#   dist/swico-portable-26.8.18-local.zip    29M
+# Cả hai mang hậu tố "-local" = bản dựng thử trên máy, không phải bản phát hành.
+# Dựng lại bằng `./build.ps1` trên máy có .NET SDK (xem global.json: 8.0.424).
+# Bản phát hành THẬT nằm ở GitHub Releases, không ở đây.
+dist/
+publish/
+release/
+out/
+build/
+
+# ── Artifact nhị phân rời
+*.exe
+*.msi
+*.dmg
+*.deb
+*.AppImage
+*.apk
+*.o
+*.obj
+
+# ── Log chạy của một máy cụ thể (lưu ý: logs/STATE.md ĐANG được theo dõi và
+# đã bị sửa - nó là tài liệu, không phải log, nên KHÔNG loại cả thư mục logs/)
+*.log
