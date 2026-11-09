@@ -15,8 +15,8 @@
 > **`docs/STATE.md` thắng**. File này chỉ trỏ tới đó, không chép lại nội dung
 > (`AGENTS.md` mục 1: mỗi tri thức ghi một lần duy nhất).
 
-- **Phiên gần nhất:** S006 - 20/08/2026
-- **Bàn giao gần nhất:** `logs/handover/20260820-04_khep-phien-S006.md`
+- **Phiên gần nhất:** S007 - 09-10/11/2026
+- **Bàn giao gần nhất:** `logs/handover/20261110-01_khep-phien-S007.md`
 
 ## Hàng đợi task (làm từ trên xuống)
 
@@ -41,7 +41,7 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
       `LicenseCollectors.cs` 5 class) ▸ logging có cấu trúc ▸ `--json-only`
       ▸ căn cột dòng tiến trình.
 - [ ] **3.6** ⬜ Quyết định có phát hành `26.8.1901` không - **đọc mục 4.7 trước**
-- [ ] **QU-6** ⛔ Quyết có đưa **4 sắc chữ ký thương hiệu** `tsudev` vào
+- [x] **QU-6** ✅ S007 - tự giải theo bộ quy ước v3.2.0 (`BRAND_ASSETS.md`): wordmark lấy token, xem `docs/STATE.md` mục S007. Dòng cũ: ⛔ Quyết có đưa **4 sắc chữ ký thương hiệu** `tsudev` vào
       `tokens/design-tokens.json` không - hiện là bốn giá trị màu **duy nhất**
       còn viết cứng (`DesignTokens.cs`). Sửa file thuộc bộ quy ước nên **cần
       chủ project cho phép trực tiếp**. `docs/STATE.md` mục QU-4.
@@ -49,12 +49,12 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
       **căn phải** trong bảng - `DataTable` chưa mang kiểu cột nên phải thêm;
       (b) **Warm Mode** cần nút chuyển + chỗ lưu lựa chọn. `docs/STATE.md` mục QU-4.
 
-- [ ] **QU-STD-AUTH** Repo này là **hạng C - ngoại tuyến** (tài liệu nêu đích danh). Việc ở đây là **kiểm chứng chứ không phải cài đặt**: chạy đủ chức năng lõi ở chế độ khách, `MUST NOT` chặn chức năng nào sau màn hình đăng nhập, `MUST NOT` gọi mạng ngầm khi chưa đăng nhập. Checklist: `.standards/docs/AUTH_AND_ACCOUNT.md` mục 17, hai dòng cuối. Một phần mềm rà quét máy tính mà tự gọi ra ngoài là thứ đầu tiên bị công cụ bảo mật gắn cờ.
+- [x] **QU-STD-AUTH** ✅ S007 kiểm chứng: không có màn hình đăng nhập; chạy thật trên Windows 11 ở chế độ khách đủ chức năng. Kết nối duy nhất là kiểm tra bản mới (công bố trong PRIVACY.md, tắt bằng `--no-update-check`). Dòng cũ: Repo này là **hạng C - ngoại tuyến** (tài liệu nêu đích danh). Việc ở đây là **kiểm chứng chứ không phải cài đặt**: chạy đủ chức năng lõi ở chế độ khách, `MUST NOT` chặn chức năng nào sau màn hình đăng nhập, `MUST NOT` gọi mạng ngầm khi chưa đăng nhập. Checklist: `.standards/docs/AUTH_AND_ACCOUNT.md` mục 17, hai dòng cuối. Một phần mềm rà quét máy tính mà tự gọi ra ngoài là thứ đầu tiên bị công cụ bảo mật gắn cờ.
 - [ ] **QU-STD-TABLE** Thêm bộ chọn số bản ghi `10/20/50/100/200` (mặc định `10`, góc dưới bên trái) cho các bảng liệt kê chương trình, gói UWP, dịch vụ, tác vụ theo lịch và mục khởi động. Chuẩn: `.standards/docs/DATA_TABLE.md` mục 12.
-- [ ] **QU-STD-BRAND** Bổ sung tài sản nhận diện còn thiếu và siêu dữ liệu nối về `tsudev.com`. Chuẩn: `.standards/docs/BRAND_ASSETS.md` mục 14 và `.standards/docs/ECOSYSTEM_IDENTITY.md` mục 9.
-- [ ] **QU-STD-1** Di trú `tokens/` sang `.standards/tokens/` (nguồn chân lý duy nhất). Hiện có **5 file mã nguồn** đọc token cục bộ. Đây là thay đổi PHÁ VỠ: `text-muted` đổi giá trị ở cả ba chế độ và có thêm `border-control`. Làm theo CHANGELOG mục 2.0.0 "Hướng dẫn nâng cấp", chạy lại ảnh chụp giao diện.
-- [ ] **QU-STD-2** Xóa bản sao quy ước cũ nay đã trùng `.standards/`: docs/DESIGN_SYSTEM.md docs/PROJECT_STRUCTURE.md docs/templates/HANDOVER.md - giữ lại chỉ tạo hai nguồn chân lý.
-- [ ] **QU-STD-3** Rà chỗ dùng `border-strong` cho viền nút phụ hoặc ô nhập, đổi sang `border-control` (`.standards/docs/DESIGN_SYSTEM.md` mục 1).
+- [ ] **QU-STD-BRAND** 🔶 S007 làm phần web (favicon, og-image, manifest, `<head>` đủ ở swico.tsudev.com; README + metadata repo). Còn: đối chiếu checklist `BRAND_ASSETS.md` mục 14 cho icon app/bộ cài. Bổ sung tài sản nhận diện còn thiếu và siêu dữ liệu nối về `tsudev.com`. Chuẩn: `.standards/docs/BRAND_ASSETS.md` mục 14 và `.standards/docs/ECOSYSTEM_IDENTITY.md` mục 9.
+- [x] **QU-STD-1** ✅ S007. Di trú `tokens/` sang `.standards/tokens/` (nguồn chân lý duy nhất). Hiện có **5 file mã nguồn** đọc token cục bộ. Đây là thay đổi PHÁ VỠ: `text-muted` đổi giá trị ở cả ba chế độ và có thêm `border-control`. Làm theo CHANGELOG mục 2.0.0 "Hướng dẫn nâng cấp", chạy lại ảnh chụp giao diện.
+- [x] **QU-STD-2** ✅ S007. Xóa bản sao quy ước cũ nay đã trùng `.standards/`: docs/DESIGN_SYSTEM.md docs/PROJECT_STRUCTURE.md docs/templates/HANDOVER.md - giữ lại chỉ tạo hai nguồn chân lý.
+- [x] **QU-STD-3** ✅ S007 (nút phụ của website dùng `border-control`; báo cáo không có viền nút phụ/ô nhập dùng `border-strong`). Rà chỗ dùng `border-strong` cho viền nút phụ hoặc ô nhập, đổi sang `border-control` (`.standards/docs/DESIGN_SYSTEM.md` mục 1).
 
 ## Đang thực hiện
 
@@ -63,6 +63,12 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
 | (không có) | | |
 
 ## Đã hoàn thành (mới nhất trên cùng)
+
+- 10/11/2026 - **S007:** trang sản phẩm **https://swico.tsudev.com** (`website/`, Workers Static Assets);
+  README nhận diện + hạng C (phiếu `20261109-01` đóng); updater trỏ `tsudev-org/tsudev-swico`;
+  sửa báo cáo in nguyên văn `<b>`; 3 lỗi axe trong báo cáo; QU-STD-1/2/3, QU-6, QU-STD-AUTH.
+  186 PASS. Chạy thật trên Windows 11 (UAC, `--silent`): mã thoát 10, 0 lỗi axe trên báo cáo thật.
+  Chi tiết: `docs/STATE.md` mục S007 + phiếu `20261110-01`.
 
 - 20/08/2026 - **3.5-1 XONG:** bộ test chuyển sang **xUnit**. 1313 dòng
   top-level statements tách thành 22 lớp test theo chủ đề. Chạy bằng
