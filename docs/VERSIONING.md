@@ -10,7 +10,7 @@
 > | `.github/workflows/release.yml`, bước *Kiểm tra quy ước đặt tên* | Dừng hẳn quy trình phát hành trước khi build |
 > | `.github/workflows/ci.yml` | Kiểm `VersionPrefix` ở **mỗi PR** |
 >
-> **Nguồn quy ước:** [`docs/DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md) mục 6 - áp dụng
+> **Nguồn quy ước:** [`.standards/docs/DESIGN_SYSTEM.md`](../.standards/docs/DESIGN_SYSTEM.md) mục 6 - áp dụng
 > cho toàn hệ sinh thái tsudev. Tài liệu này là bản diễn giải cho repo SWICO,
 > kèm những gì bị cấm và **vì sao**.
 

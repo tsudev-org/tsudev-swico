@@ -5,11 +5,11 @@ using System.Text.Json;
 namespace Tsudev.Audit.Core.Rendering;
 
 /// <summary>
-/// Doc tokens/design-tokens.json (NHUNG san trong assembly) va sinh ra khoi bien
+/// Doc .standards/tokens/design-tokens.json (NHUNG san trong assembly) va sinh ra khoi bien
 /// CSS de nhung thang vao the &lt;style&gt; cua bao cao.
 ///
 /// VI SAO PHAI LAM VAY thay vi chep gia tri vao ma nguon:
-/// AGENTS.md muc 6 cam hard-code mau / co chu / radius. tokens/design-tokens.json
+/// AGENTS.md muc 6 cam hard-code mau / co chu / radius. .standards/tokens/design-tokens.json
 /// la nguon chan ly duy nhat cua ca he sinh thai tsudev - sua mot gia tri o do
 /// thi bao cao doi theo o lan build sau, khong ai phai di tim trong CSS.
 ///
@@ -44,7 +44,7 @@ public static class DesignTokens
     {
         var v = Str("color", mode, role);
         return v ?? throw new InvalidOperationException(
-            $"tokens/design-tokens.json khong co color.{mode}.{role}");
+            $".standards/tokens/design-tokens.json khong co color.{mode}.{role}");
     }
 
     private static JsonDocument Load()
@@ -53,7 +53,7 @@ public static class DesignTokens
         using var stream = asm.GetManifestResourceStream(ResourceName)
             ?? throw new InvalidOperationException(
                 $"Khong tim thay tai nguyen nhung '{ResourceName}'. Kiem tra muc EmbeddedResource " +
-                "trong Tsudev.Audit.Core.csproj - duong dan la ../../tokens/design-tokens.json.");
+                "trong Tsudev.Audit.Core.csproj - duong dan la ../../.standards/tokens/design-tokens.json.");
         return JsonDocument.Parse(stream);
     }
 
@@ -72,7 +72,7 @@ public static class DesignTokens
         var root = _doc.Value.RootElement;
         var sb = new StringBuilder();
 
-        sb.Append("/* Sinh tu tokens/design-tokens.json v").Append(Version)
+        sb.Append("/* Sinh tu .standards/tokens/design-tokens.json v").Append(Version)
           .Append(" - KHONG sua tay o day, sua trong file token. */\n:root{\n");
 
         // --- Mau che do sang (mac dinh)
@@ -80,8 +80,8 @@ public static class DesignTokens
 
         // --- Phan khong doi theo che do
         AppendGroup(sb, root, "typography", "font-family", "--font-sans");
-        AppendGroup(sb, root, "typography", "font-family-mono", "--font-mono");
-        AppendMap(sb, root, "--fs-", "typography", "size");
+        AppendGroup(sb, root, "typography", "font-mono", "--font-mono");
+        AppendMap(sb, root, "--fs-", "typography", "font-size");
         AppendMap(sb, root, "--lh-", "typography", "line-height");
         AppendMap(sb, root, "--fw-", "typography", "weight");
         AppendMap(sb, root, "--ls-", "typography", "letter-spacing");
@@ -129,42 +129,39 @@ public static class DesignTokens
     }
 
     // ---------------------------------------------------------------------
-    // MAU CHU KY THUONG HIEU tsudev - 4 gia tri duy nhat con viet cung trong ma.
+    // MAU CHU KY THUONG HIEU tsudev.
     //
-    // CO Y nam ngoai tokens/design-tokens.json: bo token mo ta VAI TRO giao dien
-    // (nen, chu, nguy hiem...) va duoc phep doi theo san pham; con day la ban sac
-    // thuong hieu - doi mau primary thi chu ky "tsudev" van phai giu nguyen mau.
-    // Bo quy uoc hien CHUA co o cho thuong hieu. Neu chu project muon dua chung
-    // vao token thi day dung la 4 gia tri can chuyen - docs/STATE.md muc QU-4.
+    // CHAN TRANG (nen trang, doi theo che do): theo .standards/docs/BRAND_ASSETS.md,
+    // wordmark dung bang chu that MUST lay mau tu token - "tsu" = text-primary,
+    // "dev" = text-link - vi hai token nay da qua cong tuong phan o moi che do.
+    // Truoc 09/11/2026 o day viet cung #1C5FBF / #D2690A; cam #D2690A chi dat
+    // 3,29:1 tren nen bg-base sang (axe bao loi tren bao cao mau). Day cung la loi
+    // giai cho QU-6: khong can them gi vao bo token.
     //
-    // Moi sac co hai ban: mot cho nen DAM, mot cho nen SANG. Dau trang luon la
-    // nen dam nen dung ban on-dark co dinh; chan trang nam trong nen trang nen
-    // phai lat khi he dieu hanh o che do toi.
+    // DAU TRANG (nen gradient xanh co dinh, khong doi theo che do): hai sac cam
+    // va xanh nhat danh cho nen dam - BRAND_ASSETS cho phep "chi khi buoc phai
+    // dung dung sac cam thuong hieu". Do tren goc trai dau trang (primary-active,
+    // noi dat chu ky): 5,25:1 va 4,58:1, chu lon dam.
     private const string BrandTsuOnDark = "#8FD0FF";
     private const string BrandDevOnDark = "#FFA94D";
-    private const string BrandTsuOnLight = "#1C5FBF";
-    private const string BrandDevOnLight = "#D2690A";
 
     private static void AppendBrand(StringBuilder sb, bool forDarkScheme, string indent = "  ")
     {
-        // Dau trang luon la nen DAM (xem --c-hero-* o tren) nen sac chu ky tren
-        // do khong doi. Chan trang thi nam trong nen trang, phai lat theo che do.
         if (!forDarkScheme)
         {
             sb.Append(indent).Append("--brand-tsu-hero:").Append(BrandTsuOnDark).Append(";\n");
             sb.Append(indent).Append("--brand-dev-hero:").Append(BrandDevOnDark).Append(";\n");
         }
 
-        sb.Append(indent).Append("--brand-tsu-foot:")
-          .Append(forDarkScheme ? BrandTsuOnDark : BrandTsuOnLight).Append(";\n");
-        sb.Append(indent).Append("--brand-dev-foot:")
-          .Append(forDarkScheme ? BrandDevOnDark : BrandDevOnLight).Append(";\n");
+        var mode = forDarkScheme ? "dark" : "light";
+        sb.Append(indent).Append("--brand-tsu-foot:").Append(Color(mode, "text-primary")).Append(";\n");
+        sb.Append(indent).Append("--brand-dev-foot:").Append(Color(mode, "text-link")).Append(";\n");
     }
 
     private static void AppendColors(StringBuilder sb, JsonElement root, string mode, string indent = "  ")
     {
         if (!root.TryGetProperty("color", out var colors) || !colors.TryGetProperty(mode, out var set))
-            throw new InvalidOperationException($"tokens/design-tokens.json khong co color.{mode}");
+            throw new InvalidOperationException($".standards/tokens/design-tokens.json khong co color.{mode}");
 
         foreach (var p in set.EnumerateObject())
         {

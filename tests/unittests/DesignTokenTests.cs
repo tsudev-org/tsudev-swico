@@ -35,7 +35,7 @@ public class DesignTokenTests
     public void Token_den_tu_file_token()
     {
         Assert.True(StyleBlock.Contains(DesignTokens.Color("light", "primary"), StringComparison.OrdinalIgnoreCase),
-            "mau primary trong CSS lay tu tokens/design-tokens.json");
+            "mau primary trong CSS lay tu .standards/tokens/design-tokens.json");
         Assert.True(StyleBlock.Contains("'Inter'", StringComparison.Ordinal),
             "font Inter lay tu token (DESIGN_SYSTEM.md muc 4)");
         Assert.True(StyleBlock.Contains("--radius-lg:8px", StringComparison.Ordinal),
