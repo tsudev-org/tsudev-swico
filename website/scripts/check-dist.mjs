@@ -35,7 +35,7 @@ function kiemTra(tep, html) {
   // từ upstream (ngoại lệ đã ghi trong logs/STATE.md) nên được bỏ qua.
   if (!/^\/(nhat-ky|ban-quyen)\//.test(ten)) {
     const chu = html.replace(/<pre[\s\S]*?<\/pre>/g, '').replace(/<[^>]+>/g, ' ');
-    if (/[–—]/.test(chu)) loi.push(`${ten}: có em-dash/en-dash trong chữ hiển thị`);
+    if (/[\u2013\u2014]/.test(chu)) loi.push(`${ten}: có em-dash/en-dash trong chữ hiển thị`);
   }
   for (const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)/g)) lienKet.push([ten, m[1]]);
 }
