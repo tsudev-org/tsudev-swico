@@ -1,0 +1,11 @@
+---
+import TaiLieu from '../components/TaiLieu.astro';
+import { changelogMoiNhat, RELEASES_URL, renderMd } from '../lib/noi-dung';
+// Sáu phiên bản gần nhất; bản đầy đủ (kể cả phần chưa phát hành) ở CHANGELOG.md trên GitHub.
+const { html } = renderMd('CHANGELOG.md', { md: changelogMoiNhat(6) });
+---
+<TaiLieu tieuDe="Nhật ký thay đổi" moTa="Nhật ký thay đổi của tsudev SWICO theo từng phiên bản: tính năng mới, dấu hiệu phát hiện mới, sửa lỗi và thay đổi về cách đóng gói, cập nhật." duongDan="/nhat-ky/" nguon="CHANGELOG.md">
+  <h1>Nhật ký thay đổi</h1>
+  <p>Các phiên bản đã phát hành, mới nhất trên cùng. Tệp cài đặt của từng bản ở <a href={RELEASES_URL} target="_blank" rel="noopener noreferrer">trang phát hành trên GitHub</a>.</p>
+  <Fragment set:html={html} />
+</TaiLieu>

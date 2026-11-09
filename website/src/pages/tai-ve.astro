@@ -1,0 +1,98 @@
+---
+import Trang from '../layouts/Trang.astro';
+import { banMoiNhat, mb, RELEASES_URL, REPO, REPO_URL } from '../lib/noi-dung';
+
+const ban = await banMoiNhat();
+const vd = ban?.goi.find((g) => g.ma === 'setup')?.ten ?? 'tsudev-swico_<phiên bản>_x64-setup.exe';
+---
+<Trang tieuDe="Tải về" moTa="Tải tsudev SWICO cho Windows 10, 11: bộ cài, bản di động hoặc chỉ tệp swico.exe; mã SHA-256 từng gói, cách kiểm tra tệp và cài im lặng." duongDan="/tai-ve/">
+  <div class="khung tai-lieu">
+    <nav class="tai-lieu__menu" aria-label="Tải về">
+      <p>Tải về</p>
+      <ul>
+        <li><a href="#chon-goi">Chọn gói</a></li>
+        <li><a href="#yeu-cau">Yêu cầu</a></li>
+        <li><a href="#kiem-tra">Kiểm tra tệp</a></li>
+        <li><a href="#cai-dat">Cài đặt</a></li>
+        <li><a href="#cap-nhat">Cập nhật</a></li>
+        <li><a href="#tu-build">Tự build</a></li>
+      </ul>
+    </nav>
+    <article class="van-ban">
+      {ban ? (
+        <>
+          <h1>Tải tsudev SWICO {ban.phienBan}</h1>
+          <p>Phát hành ngày {ban.ngay}. Mọi gói được GitHub Actions build từ mã nguồn công khai; trang này chỉ dẫn tới <a href={ban.url} target="_blank" rel="noopener noreferrer">trang phát hành trên GitHub</a>, không lưu bản sao.</p>
+        </>
+      ) : (
+        <>
+          <h1>Tải tsudev SWICO</h1>
+          <div class="chu-y"><p><strong>Bản phát hành đầu tiên đang được chuẩn bị.</strong> Khi có, danh sách gói kèm SHA-256 hiện ngay tại đây và ở <a href={RELEASES_URL} target="_blank" rel="noopener noreferrer">trang phát hành trên GitHub</a>.</p></div>
+        </>
+      )}
+
+      <h2 id="chon-goi">Chọn gói</h2>
+      <p>Ba gói chứa <strong>cùng một chương trình</strong>, chỉ khác cách giao tới máy đích.</p>
+      {ban && ban.goi.length > 0 && (
+        <div class="goi">
+          {ban.goi.map((g) => (
+            <div class="goi__muc">
+              <div>
+                <h3>{g.tieuDe}</h3>
+                <p class="goi__ten">{g.moTa}</p>
+                <p class="goi__ten">{g.ten} · {mb(g.kichThuoc)}</p>
+              </div>
+              <a class={`nut ${g.ma === 'setup' ? 'nut--chinh' : 'nut--phu'}`} href={g.url}>Tải về<span class="an-di"> {g.ten}</span></a>
+              {g.sha256 && <p class="goi__bam">SHA-256: {g.sha256}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+      {ban && ban.phu.length > 0 && (
+        <>
+          <h3>Tệp đi kèm</h3>
+          <ul>
+            {ban.phu.map((g) => <li><a href={g.url}>{g.ten}</a> ({g.tieuDe}): {g.moTa}</li>)}
+            {ban.tepSums.map((s) => <li><a href={s.url}>{s.ten}</a>: mã SHA-256 của mọi tệp trong bản phát hành.</li>)}
+          </ul>
+        </>
+      )}
+
+      <h2 id="yeu-cau">Yêu cầu</h2>
+      <ul>
+        <li>Windows 10 hoặc Windows 11, 64-bit (x64). Không cần cài .NET Runtime: chương trình mang sẵn runtime.</li>
+        <li>Quyền quản trị (Administrator). Windows tự hiện hộp thoại UAC; trạng thái bản quyền, Defender và DISM chỉ đọc được khi có quyền này.</li>
+        <li>Không cần Internet. Có mạng thì chương trình hỏi GitHub xem đã có bản mới chưa; tắt bằng <code>--no-update-check</code>.</li>
+      </ul>
+
+      <h2 id="kiem-tra">Kiểm tra tệp trước khi chạy</h2>
+      <p>Mỗi bản phát hành có tệp <code>SHA256SUMS.txt</code>. So mã SHA-256 của tệp bạn tải với mã ở trên hoặc trong tệp đó. PowerShell:</p>
+      <pre tabindex="0"><code>Get-FileHash .\{vd} -Algorithm SHA256</code></pre>
+      <div class="chu-y">
+        <p><strong>Chỉ tải từ trang này hoặc từ <a href={`${REPO_URL}/releases`} target="_blank" rel="noopener noreferrer">github.com/{REPO}</a>.</strong> Mọi trang khác tự xưng "bản chính thức" đều không liên quan tới tsudev.</p>
+        <p>Bản Windows chưa có chứng thư Authenticode (đang chờ duyệt chương trình ký mã miễn phí) nên SmartScreen có thể cảnh báo ở lần chạy đầu: chọn <em>Thông tin thêm</em>, rồi <em>Vẫn chạy</em> sau khi đã kiểm SHA-256.</p>
+      </div>
+
+      <h2 id="cai-dat">Cài đặt</h2>
+      <ol>
+        <li><strong>Bộ cài:</strong> chạy tệp <code>-setup.exe</code>, làm theo trình hướng dẫn tiếng Việt. Có lối tắt trong menu Start và mục gỡ cài đặt.</li>
+        <li><strong>Bản di động:</strong> giải nén tệp <code>.zip</code> vào USB hoặc thư mục bất kỳ, chạy <code>swico.exe</code>. Không ghi gì vào registry.</li>
+        <li><strong>Chỉ tệp chạy:</strong> đặt <code>swico.exe</code> ở nơi script hoặc RMM gọi được.</li>
+      </ol>
+      <p>Cài im lặng cho nhiều máy:</p>
+      <pre tabindex="0"><code>{vd} /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</code></pre>
+      <p>Chạy quét không cần người ngồi máy, xem <a href="/huong-dan/trien-khai/">Triển khai hàng loạt</a>.</p>
+
+      <h2 id="cap-nhat">Cập nhật</h2>
+      <p>Khi khởi động, chương trình hỏi GitHub xem đã có bản mới chưa. Có thì hiện hộp thoại một nút <strong>Cập nhật</strong>: tải, đối chiếu SHA-256, rồi chạy trình cài đặt. Phải cập nhật xong mới quét tiếp, vì kết luận dựa trên bộ luật phát hiện và bộ luật cũ có thể bỏ sót dấu hiệu mới. Không kiểm tra được (mất mạng, tường lửa chặn) thì vẫn quét bình thường kèm ghi chú.</p>
+      <p>Bộ luật phát hiện còn cập nhật được độc lập, không cần bản mới: xem <a href="/luat-phat-hien/">Bộ luật phát hiện</a>.</p>
+
+      <h2 id="tu-build">Tự build từ mã nguồn</h2>
+      <p>Cần .NET SDK 8. Phần lõi (logic quét, chấm điểm, dựng báo cáo) build và chạy test được cả trên Linux, macOS.</p>
+      <pre tabindex="0"><code>git clone {REPO_URL}.git
+cd tsudev-swico
+dotnet test tests/unittests
+dotnet publish src/Tsudev.Audit.Cli -c Release -r win-x64</code></pre>
+    </article>
+  </div>
+</Trang>

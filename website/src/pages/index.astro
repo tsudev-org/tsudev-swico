@@ -1,0 +1,104 @@
+---
+import Trang from '../layouts/Trang.astro';
+import { banMoiNhat, boLuat, RELEASES_URL } from '../lib/noi-dung';
+
+const ban = await banMoiNhat();
+const luat = boLuat();
+const soDauHieu = luat.suspiciousNames.length + luat.hookDirectories.length + luat.hookFiles.length + luat.knownKmsHosts.length + luat.hostsInterferenceKeywords.length;
+
+const tinhNang = [
+  { t: 'Bản quyền Windows', d: 'Đọc trạng thái kích hoạt của từng SKU qua WMI và slmgr, kênh khóa (OEM, Retail, Volume), năm ký tự cuối của khóa sản phẩm. Kết luận chỉ là hợp lệ khi không còn SKU nào có vấn đề.' },
+  { t: 'Office và Microsoft 365', d: 'Kiểm tra qua công cụ chính thức ospp.vbs, kể cả bản Click-to-Run cài ở thư mục root\\Office16 mà nhiều công cụ khác bỏ sót.' },
+  { t: 'Dấu hiệu kích hoạt trái phép', d: `Rà ${soDauHieu} dấu hiệu đã biết: dịch vụ và tác vụ KMS giả, tệp hook, máy chủ KMS lạ, tệp hosts bị sửa. Mỗi phát hiện có giải thích và điểm rủi ro 0 tới 100.` },
+  { t: 'Cấu hình phần cứng', d: 'CPU, RAM từng khe, ổ đĩa và phân vùng, card đồ họa, card mạng, số serial máy và bo mạch, thiết bị đang lỗi driver. Đủ để làm sổ tài sản.' },
+  { t: 'Toàn vẹn hệ thống', d: 'DISM CheckHealth, System File Checker (bật bằng --sfc) và lịch sử phát hiện thật của Windows Defender, đọc thẳng từ Windows.' },
+  { t: 'Bốn định dạng cùng lúc', d: 'HTML để đọc, JSON để tích hợp, XLSX và CSV để xử lý tiếp. Báo cáo HTML là một tệp duy nhất, mở được trên máy không có Internet.' },
+  { t: 'Gom nhiều máy', d: 'Copy thư mục kết quả của các máy về một chỗ, trang tổng hợp tự đọc đệ quy và gom thành một bảng, có ô lọc.' },
+  { t: 'Sẵn cho RMM và GPO', d: 'Chế độ --silent, mã thoát tách riêng sức khỏe công cụ với kết luận đánh giá, bộ cài hỗ trợ /VERYSILENT.' },
+];
+---
+<Trang moTa="tsudev SWICO kiểm tra bản quyền Windows, Office và thu thập cấu hình phần cứng bằng một tệp .exe. Báo cáo HTML, JSON, XLSX; dữ liệu không rời khỏi máy." duongDan="/">
+  <section class="mo-dau">
+    <div class="khung mo-dau__luoi">
+      <div>
+        <span class="nhan">Miễn phí, mã nguồn mở, cho Windows 10 và 11</span>
+        <h1>Rà soát bản quyền và cấu hình máy tính trong một lần chạy</h1>
+        <p class="mo-dau__phu">tsudev SWICO kiểm tra tình trạng kích hoạt Windows và Office, tìm dấu hiệu kích hoạt trái phép, thu thập cấu hình phần cứng, rồi xuất báo cáo dễ đọc. Một tệp <code>.exe</code> duy nhất, không cần cài .NET Runtime.</p>
+        <div class="mo-dau__nut">
+          <a class="nut nut--chinh" href="/tai-ve/">Tải về{ban ? ` bản ${ban.phienBan}` : ''}</a>
+          <a class="nut nut--phu" href="/bao-cao-mau/">Xem báo cáo mẫu</a>
+        </div>
+        <p class="mo-dau__ghi-chu">Không thu thập, không gửi dữ liệu của máy được quét đi đâu. Hạng sản phẩm C: chạy trọn vẹn không cần Internet và không cần tài khoản.</p>
+      </div>
+      <figure class="minh-hoa">
+        <img src="/anh/bao-cao-ban-quyen-sang.png" alt="Báo cáo bản quyền mẫu: thẻ tóm tắt số phần mềm, SKU Windows hợp lệ, số dấu hiệu kích hoạt trái phép và điểm rủi ro" width="1280" height="800">
+        <figcaption>Báo cáo bản quyền của một máy mẫu (dữ liệu giả lập).</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="muc muc--nen" aria-labelledby="tinh-nang">
+    <div class="khung">
+      <h2 id="tinh-nang">Làm được gì</h2>
+      <p class="muc__dan">Một lần quét đầy đủ mất từ vài chục giây. Mọi lệnh gọi hệ thống nằm gọn trong một tệp mã nguồn để người rà soát bảo mật tự kiểm chứng.</p>
+      <ul class="the-luoi">
+        {tinhNang.map((x) => <li class="the"><h3>{x.t}</h3><p>{x.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="muc" aria-labelledby="ba-buoc">
+    <div class="khung">
+      <h2 id="ba-buoc">Ba bước</h2>
+      <p class="muc__dan">Không cần cấu hình. Windows hỏi quyền quản trị (UAC) vì trạng thái bản quyền, Defender và DISM chỉ đọc được khi có quyền đó.</p>
+      <ol class="buoc">
+        <li class="the"><h3>Chạy swico.exe</h3><p>Nhấp đúp, hoặc gọi từ dòng lệnh với tham số. Tiến trình hiện từng bước kèm thời gian thật.</p></li>
+        <li class="the"><h3>Đọc báo cáo</h3><p>Trình duyệt tự mở báo cáo HTML khi quét xong. Kết luận, điểm rủi ro và từng phát hiện có giải thích.</p></li>
+        <li class="the"><h3>Gom nhiều máy</h3><p>Copy thư mục kết quả của các máy về một chỗ. Trang tổng hợp tự gom thành một bảng.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="muc muc--nen" aria-labelledby="anh-chup">
+    <div class="khung">
+      <h2 id="anh-chup">Báo cáo trông như thế nào</h2>
+      <p class="muc__dan">Ảnh chụp từ báo cáo thật do chương trình sinh ra trên hai máy giả lập, tự đổi theo chế độ sáng, tối của hệ điều hành. <a href="/bao-cao-mau/">Mở báo cáo mẫu trực tiếp trên trình duyệt</a>.</p>
+      <div class="anh-luoi">
+        <figure>
+          <img src="/anh/tong-hop-sang.png" alt="Trang tổng hợp: hai máy, bốn bản báo cáo, một báo cáo cần xem lại, bảng danh sách có ô lọc" width="1280" height="800" loading="lazy">
+          <figcaption>Trang tổng hợp nhiều máy</figcaption>
+        </figure>
+        <figure>
+          <img src="/anh/phan-cung-toi.png" alt="Báo cáo cấu hình phần cứng ở chế độ tối: thông tin máy, CPU, RAM, ổ đĩa" width="1280" height="800" loading="lazy">
+          <figcaption>Báo cáo phần cứng, chế độ tối</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="muc" aria-labelledby="rieng-tu">
+    <div class="khung">
+      <h2 id="rieng-tu">Dữ liệu ở lại trên máy</h2>
+      <p class="muc__dan">Báo cáo chỉ được ghi ra đĩa của chính máy đó. Kết nối mạng duy nhất là hỏi GitHub xem đã có phiên bản mới chưa; kết nối đó chỉ để lộ địa chỉ IP và số phiên bản, như mọi yêu cầu web, và tắt được bằng <code>--no-update-check</code>.</p>
+      <ul class="the-luoi">
+        <li class="the"><h3>Không tài khoản</h3><p>Không đăng nhập, không đăng ký. Mở ra là dùng được.</p></li>
+        <li class="the"><h3>Không gửi dữ liệu</h3><p>Không đo lường, không theo dõi, không tải báo cáo lên máy chủ nào.</p></li>
+        <li class="the"><h3>Kiểm chứng được</h3><p>Toàn bộ mã chạm tới mạng nằm trong một tệp: <code>UpdateAdapters.cs</code>.</p></li>
+        <li class="the"><h3>Cập nhật an toàn</h3><p>Bản cập nhật được đối chiếu SHA-256 trước khi chạy trình cài đặt.</p></li>
+      </ul>
+      <p><a href="/quyen-rieng-tu/">Đọc tuyên bố quyền riêng tư đầy đủ</a></p>
+    </div>
+  </section>
+
+  <section class="muc muc--nen" aria-labelledby="bat-dau">
+    <div class="khung">
+      <h2 id="bat-dau">Bắt đầu</h2>
+      <p class="muc__dan">{ban ? `Bản mới nhất ${ban.phienBan}, phát hành ngày ${ban.ngay}.` : 'Bản phát hành đầu tiên đang được chuẩn bị.'} Báo cáo là dữ liệu kỹ thuật để tham khảo, không phải kết luận pháp lý.</p>
+      <div class="mo-dau__nut">
+        <a class="nut nut--chinh" href="/tai-ve/">Tải về</a>
+        <a class="nut nut--phu" href="/huong-dan/">Hướng dẫn sử dụng</a>
+        <a class="nut nut--phu" href={RELEASES_URL} target="_blank" rel="noopener noreferrer">Trang phát hành trên GitHub</a>
+      </div>
+    </div>
+  </section>
+</Trang>

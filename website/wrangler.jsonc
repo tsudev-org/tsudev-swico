@@ -1,0 +1,16 @@
+// swico.tsudev.com: Cloudflare Workers Static Assets (gói miễn phí), chỉ phục vụ tệp tĩnh trong dist/ - không có mã
+// Worker nào chạy. Chọn Workers thay vì Pages vì Custom Domain của Workers tự tạo bản ghi DNS + chứng chỉ trong zone
+// tsudev.com cùng tài khoản (Pages cần thêm CNAME bằng tay). public/_headers vẫn áp dụng như trên Pages.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tsudev-swico",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "swico.tsudev.com", "custom_domain": true }]
+}

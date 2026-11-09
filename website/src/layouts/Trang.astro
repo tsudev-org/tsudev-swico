@@ -1,0 +1,101 @@
+---
+// Khung chung: <head> theo ECOSYSTEM_IDENTITY mục 2.2, đầu trang, chân trang nối về tsudev.com (mục 4).
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/site.css';
+import { REPO_URL, SAN_PHAM, SITE } from '../lib/noi-dung';
+
+interface Props {
+  tieuDe?: string;     // Tên trang; bỏ trống ở trang chủ
+  moTa: string;        // 120-160 ký tự
+  duongDan: string;    // ví dụ "/tai-ve/"
+}
+const { tieuDe, moTa, duongDan } = Astro.props;
+const title = tieuDe ? `${tieuDe} - ${SAN_PHAM} | tsudev` : `${SAN_PHAM} | tsudev`;
+const ogTitle = tieuDe ? `${tieuDe} - ${SAN_PHAM}` : SAN_PHAM;
+const url = `${SITE}${duongDan}`;
+const nam = new Date().getFullYear();
+const menu = [
+  { href: '/tai-ve/', ten: 'Tải về' },
+  { href: '/huong-dan/', ten: 'Hướng dẫn' },
+  { href: '/bao-cao-mau/', ten: 'Báo cáo mẫu' },
+  { href: '/luat-phat-hien/', ten: 'Luật phát hiện' },
+  { href: '/quyen-rieng-tu/', ten: 'Quyền riêng tư' },
+];
+const dangO = (href: string) => duongDan.startsWith(href);
+---
+<!doctype html>
+<html lang="vi" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title}</title>
+    <meta name="description" content={moTa}>
+    <meta name="theme-color" content="#EEF4FB" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0F1B2D" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <link rel="canonical" href={url}>
+    <meta property="og:site_name" content="tsudev">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:title" content={ogTitle}>
+    <meta property="og:description" content={moTa}>
+    <meta property="og:image" content={`${SITE}/og-image.png`}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content={url}>
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+  </head>
+  <body data-platform="web">
+    <a class="bo-qua" href="#noi-dung">Bỏ qua tới nội dung</a>
+    <header class="dau-trang">
+      <div class="khung dau-trang__trong">
+        <a class="thuong-hieu" href="/" aria-label="tsudev SWICO - Trang chủ">
+          <img src="/brand/logo-mark.png" alt="" width="34" height="42">
+          <span>tsudev <span class="thuong-hieu__sp">SWICO</span></span>
+        </a>
+        <nav aria-label="Chính">
+          <ul class="menu">
+            {menu.map((m) => (
+              <li><a href={m.href} aria-current={dangO(m.href) ? 'page' : undefined}>{m.ten}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="noi-dung">
+      <slot />
+    </main>
+    <footer class="chan-trang">
+      <div class="khung chan-trang__trong">
+        <div class="chan-trang__cot">
+          <a class="thuong-hieu thuong-hieu--nho" href="https://tsudev.com" target="_blank" rel="noopener noreferrer">
+            <img src="/brand/logo-mark.png" alt="" width="24" height="29">
+            <span>tsudev</span>
+          </a>
+          <p>(c) {nam} tsudev. tsudev SWICO là phần mềm mã nguồn mở, phát hành theo
+            <a href="/ban-quyen/">giấy phép Apache 2.0</a>. Báo cáo là dữ liệu kỹ thuật để tham khảo, không phải kết
+            luận pháp lý.</p>
+          <p><strong>tsudev</strong> là hệ sinh thái sản phẩm và công cụ phần mềm tại
+            <a href="https://tsudev.com" target="_blank" rel="noopener noreferrer">tsudev.com</a>.</p>
+        </div>
+        <ul class="chan-trang__lien-ket">
+          <li><a href="https://tsudev.com/terms" target="_blank" rel="noopener noreferrer">Điều khoản sử dụng</a></li>
+          <li><a href="https://tsudev.com/privacy" target="_blank" rel="noopener noreferrer">Chính sách riêng tư</a></li>
+          <li><a href="https://tsudev.com/projects" target="_blank" rel="noopener noreferrer">Sản phẩm khác</a></li>
+        </ul>
+        <ul class="chan-trang__lien-ket">
+          <li><a href="/nhat-ky/">Nhật ký thay đổi</a></li>
+          <li><a href="/dieu-khoan/">Thỏa thuận sử dụng (EULA)</a></li>
+          <li><a href="/ban-quyen/">Bản quyền</a></li>
+          <li><a href={REPO_URL} target="_blank" rel="noopener noreferrer">Mã nguồn</a></li>
+          <li><a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer">Báo lỗi, góp ý</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

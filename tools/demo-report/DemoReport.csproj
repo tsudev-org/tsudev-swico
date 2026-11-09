@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Sinh BAO CAO MAU tu du lieu gia lap cho website swico.tsudev.com va README.
+       Khong chay tren may that, khong doc may that: moi so lieu deu bia, de anh
+       chup cong khai khong bao gio lo ten may, so serial, MAC hay IP cua ai.
+       Chay: xem README cua thu muc nay -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Tsudev.Audit.Core/Tsudev.Audit.Core.csproj" />
+  </ItemGroup>
+</Project>

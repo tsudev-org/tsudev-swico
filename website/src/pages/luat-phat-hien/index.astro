@@ -1,0 +1,48 @@
+---
+import TaiLieu from '../../components/TaiLieu.astro';
+import { boLuat, renderMd, REPO_URL, TEP_LUAT } from '../../lib/noi-dung';
+
+// Đọc thẳng tệp luật đóng kèm trong exe lúc build: trang không bao giờ lệch bộ luật thật.
+const luat = boLuat();
+const { html } = renderMd('docs/DETECTION-RULES.md', { boTieuDeDau: true, haCap: 1 });
+const NHOM: { id: string; ten: string; moTa: string; ds: string[] }[] = [
+  { id: 'ten-dang-ngo', ten: 'Tên đáng ngờ', moTa: 'Khớp với tên dịch vụ, tác vụ theo lịch, thư mục và phần mềm đã cài.', ds: luat.suspiciousNames },
+  { id: 'thu-muc-hook', ten: 'Thư mục hook', moTa: 'Thư mục mà công cụ kích hoạt trái phép thường tạo ra.', ds: luat.hookDirectories },
+  { id: 'tep-hook', ten: 'Tệp hook', moTa: 'Tệp chèn vào dịch vụ cấp phép của Windows.', ds: luat.hookFiles },
+  { id: 'may-chu-kms', ten: 'Máy chủ KMS đã biết', moTa: 'Máy chủ KMS công cộng không thuộc tổ chức nào; doanh nghiệp dùng KMS nội bộ hợp lệ sẽ không khớp.', ds: luat.knownKmsHosts },
+  { id: 'tep-hosts', ten: 'Can thiệp tệp hosts', moTa: 'Từ khóa cho thấy tệp hosts bị sửa để chặn máy chủ kích hoạt của Microsoft.', ds: luat.hostsInterferenceKeywords },
+  { id: 'tac-vu-hop-le', ten: 'Tác vụ hợp lệ (loại trừ)', moTa: 'Tên tác vụ chính chủ của Windows, được loại khỏi danh sách đáng ngờ để tránh báo nhầm.', ds: luat.legitimateTaskNames },
+  { id: 'vi-tri-quet', ten: 'Vị trí quét', moTa: 'Thư mục được rà tìm tên đáng ngờ.', ds: luat.scanRoots },
+];
+const mucLuc = [
+  { id: 'phien-ban', ten: 'Phiên bản bộ luật' },
+  ...NHOM.map((n) => ({ id: n.id, ten: n.ten })),
+  { id: 'co-che', ten: 'Cơ chế và giới hạn' },
+];
+---
+<TaiLieu tieuDe="Bộ luật phát hiện" moTa="Toàn bộ dấu hiệu kích hoạt trái phép mà tsudev SWICO rà soát: tên đáng ngờ, tệp hook, máy chủ KMS, tệp hosts. Tải bộ luật JSON để cập nhật độc lập." duongDan="/luat-phat-hien/" mucLuc={mucLuc}>
+  <h1>Bộ luật phát hiện</h1>
+  <p>Dấu hiệu kích hoạt trái phép không nằm cứng trong mã mà ở một tệp dữ liệu có phiên bản. Trang này đọc trực tiếp tệp đó, nên luôn khớp với bộ luật đóng kèm trong bản build từ nhánh chính.</p>
+
+  <h2 id="phien-ban">Phiên bản bộ luật</h2>
+  <ul>
+    <li>Phiên bản: <strong>{luat.version}</strong>, cập nhật {luat.updatedUtc.slice(0, 10).split('-').reverse().join('/')}.</li>
+    <li>Ghi chú: {luat.notes}</li>
+    <li><a href="/luat-phat-hien/detection-rules.json" download>Tải detection-rules.json</a> hoặc xem <a href={`${REPO_URL}/blob/main/${TEP_LUAT}`} target="_blank" rel="noopener noreferrer">mã nguồn trên GitHub</a>.</li>
+  </ul>
+  <p>Dùng bộ luật mới mà không cần cài lại chương trình: đặt tệp cạnh <code>swico.exe</code>, hoặc chỉ đường dẫn:</p>
+  <pre tabindex="0"><code>swico.exe --rules .\detection-rules.json</code></pre>
+
+  {NHOM.map((n) => (
+    <>
+      <h2 id={n.id}>{n.ten} <span class="dem">({n.ds.length})</span></h2>
+      <p>{n.moTa}</p>
+      <ul class="the-chu">
+        {n.ds.map((x) => <li><code>{x}</code></li>)}
+      </ul>
+    </>
+  ))}
+
+  <h2 id="co-che">Cơ chế và giới hạn</h2>
+  <Fragment set:html={html} />
+</TaiLieu>
