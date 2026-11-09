@@ -23,7 +23,7 @@ namespace Tsudev.Audit.Windows;
 public sealed class GitHubUpdateFeed : IUpdateFeed
 {
     private const string LatestReleaseApi =
-        "https://api.github.com/repos/tsudev-tsudev/swico/releases/latest";
+        "https://api.github.com/repos/tsudev-org/tsudev-swico/releases/latest";
 
     private readonly TimeSpan _timeout;
     private readonly string _userAgent;

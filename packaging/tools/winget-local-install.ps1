@@ -16,7 +16,7 @@
 [CmdletBinding()]
 param(
     [string]$Version,
-    [string]$Repo = 'tsudev-tsudev/swico',
+    [string]$Repo = 'tsudev-org/tsudev-swico',
     [switch]$ValidateOnly
 )
 $ErrorActionPreference = 'Stop'

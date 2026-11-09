@@ -15,7 +15,7 @@
 
 #define AppName        "tsudev SWICO"
 #define AppPublisher   "tsudev"
-#define AppUrl         "https://github.com/tsudev-tsudev/swico"
+#define AppUrl         "https://github.com/tsudev-org/tsudev-swico"
 #define AppExeName     "swico.exe"
 #define SourceExe      "..\..\publish\" + AppExeName
 
@@ -28,7 +28,7 @@ AppName={#AppName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
 AppPublisher={#AppPublisher}
-AppPublisherURL={#AppUrl}
+AppPublisherURL=https://swico.tsudev.com
 AppSupportURL={#AppUrl}/issues
 AppUpdatesURL={#AppUrl}/releases
 VersionInfoVersion={#AppVersion}
@@ -62,7 +62,7 @@ LicenseFile=..\..\EULA.txt
 ; cac dau markdown, nen cho tro toi ban .txt sinh rieng cho trinh cai dat.
 InfoAfterFile=SAU-KHI-CAI.txt
 OutputDir=..\output
-;  Ten file cai dat theo docs/DESIGN_SYSTEM.md muc 6:
+;  Ten file cai dat theo .standards/docs/DESIGN_SYSTEM.md muc 6:
 ;     {ten-app}_{YY}.{M}.{DD}{NN}_{arch}-setup.exe
 ;  Chuc nang tu cap nhat tim file cai dat THEO TEN, nen ten o day phai khop
 ;  voi ReleaseName.InstallerFileName trong ma nguon. Doi mot ben ma quen ben

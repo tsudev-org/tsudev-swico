@@ -6,7 +6,7 @@ public class GitHubReleaseTests
     private const string ReleaseJson = """
 {
   "tag_name": "v26.8.2001",
-  "html_url": "https://github.com/tsudev-tsudev/swico/releases/tag/v26.8.2001",
+  "html_url": "https://github.com/tsudev-org/tsudev-swico/releases/tag/v26.8.2001",
   "published_at": "2026-08-20T10:00:00Z",
   "assets": [
     { "name": "tsudev-swico_26.8.2001_x64-setup.exe", "browser_download_url": "https://x/tsudev-swico_26.8.2001_x64-setup.exe" },

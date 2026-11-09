@@ -37,7 +37,7 @@ quyền yêu cầu biết chính xác dữ liệu đi đâu.
 Khi khởi động, công cụ gọi **một** yêu cầu GET tới:
 
 ```
-https://api.github.com/repos/tsudev-tsudev/swico/releases/latest
+https://api.github.com/repos/tsudev-org/tsudev-swico/releases/latest
 ```
 
 **Được gửi đi** (không thể tránh với bất kỳ yêu cầu HTTP nào):

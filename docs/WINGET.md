@@ -48,7 +48,7 @@ manifest sinh tự động, nên đường này chạy được ngay:
 
 ```powershell
 # PowerShell với quyền Administrator
-irm https://raw.githubusercontent.com/tsudev-tsudev/swico/main/packaging/tools/winget-local-install.ps1 -OutFile wg.ps1
+irm https://raw.githubusercontent.com/tsudev-org/tsudev-swico/main/packaging/tools/winget-local-install.ps1 -OutFile wg.ps1
 .\wg.ps1
 ```
 

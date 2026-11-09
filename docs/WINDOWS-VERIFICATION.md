@@ -14,7 +14,7 @@ như chắc chắn lỗi nằm gọn trong `src/Tsudev.Audit.Windows/WindowsAdap
 
 ## Chuẩn bị - đọc kỹ mục này trước
 
-> ⚠️ **Repo `github.com/tsudev-tsudev/swico` CHƯA TỒN TẠI.** Đó là URL điền tạm,
+> ⚠️ **Repo `github.com/tsudev-org/tsudev-swico` CHƯA TỒN TẠI.** Đó là URL điền tạm,
 > dùng trước cho tài liệu và manifest. Mã nguồn hiện **chỉ nằm trên máy dev
 > Linux**, chưa từng được đẩy lên GitHub. `git clone` sẽ báo không tìm thấy.
 
