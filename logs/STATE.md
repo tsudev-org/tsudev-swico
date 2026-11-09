@@ -22,7 +22,7 @@
 
 Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái.
 
-> **Việc làm được ngay, không cần ai:** `3.5` (mục 1 đã xong), `QU-7`. Mọi việc
+> **Việc làm được ngay, không cần ai** (thứ tự: phiếu `20261110-01` mục 1c): `QU-7`, `QU-STD-TABLE`, `3.5`, `QU-STD-BRAND`. Mọi việc
 > còn lại đều chặn ở người dùng hoặc bên ngoài - xem cột lý do.
 
 - [ ] **QU-2** ⛔ Nhờ người dùng kiểm **Inno Setup** biên dịch được với
