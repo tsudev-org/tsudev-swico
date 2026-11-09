@@ -16,9 +16,10 @@
 
     <!-- Token giao dien duoc NHUNG vao assembly vi cung mot ly do: bao cao HTML
          phai xem duoc khi copy sang may khac ma khong keo theo file phu nao.
-         tokens/design-tokens.json la NGUON CHAN LY DUY NHAT (AGENTS.md muc 6) -
-         sua mot gia tri o do la ca bao cao doi theo, khong phai sua trong ma. -->
-    <EmbeddedResource Include="../../tokens/design-tokens.json"
+         .standards/tokens/design-tokens.json la NGUON CHAN LY DUY NHAT cua ca he
+         sinh thai (dong bo tu tsudev-standards, KHONG sua tay) - nang bo quy uoc
+         la bao cao doi theo, khong phai sua trong ma. QU-STD-1, 09/11/2026. -->
+    <EmbeddedResource Include="../../.standards/tokens/design-tokens.json"
                       LogicalName="Tsudev.Audit.Core.Rendering.design-tokens.json" />
   </ItemGroup>
 </Project>

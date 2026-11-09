@@ -36,7 +36,7 @@
 
 ```
 Build     : ✅ 0 cảnh báo (TreatWarningsAsErrors bật) - đo trên máy dev Linux
-Test      : ✅ xUnit - Passed 179, Failed 0 - đo trên máy dev Linux
+Test      : ✅ xUnit - Passed 186, Failed 0 - đo trên máy dev Linux 09/11/2026 (S007)
             (`dotnet test tests/unittests -c Release`; 179 ca bao trọn 298
             phép kiểm của bộ tự chế cũ, xem mục 3.5)
 CI        : ✅ run 32360493509 XANH cả hai job (Linux + smoke test Windows) cho
@@ -45,7 +45,9 @@ CI        : ✅ run 32360493509 XANH cả hai job (Linux + smoke test Windows) c
             `26.8.1901` chạy trên runner GitHub. Bước `Kiem tra quy uoc dat ten`
             của `release.yml` vẫn CHƯA từng chạy (chỉ kích hoạt khi gắn tag).
 Release   : ✅ v26.8.18.2 đã phát hành chính thức (Latest)
-Repo      : ✅ github.com/tsudev-tsudev/swico - PUBLIC, working tree sạch
+Repo      : ✅ github.com/tsudev-org/tsudev-swico - PUBLIC (chuyển từ tsudev-tsudev/swico 09/11/2026;
+            TÊN CŨ BẤT KHẢ XÂM PHẠM - bản đã cài cập nhật nhờ chuyển hướng)
+Website   : ✅ https://swico.tsudev.com - Workers Static Assets, mã ở website/ (S007)
 SDK       : ✅ ghim 8.0.424 qua global.json (dev và CI dùng CÙNG một SDK)
 Windows   : ✅ đã chạy thật, cài thật, dữ liệu đúng, đối chiếu với bản PowerShell cũ xong
 Terminal  : 🔄 streaming tiến trình quét ĐÃ VIẾT XONG, phần "dáng vẻ" chờ kiểm bằng mắt
@@ -62,7 +64,8 @@ Git       : ✅ ngang bằng origin/main (đếm bằng `git log --oneline origi
 | Phiên bản | trong repo: **26.8.1901** · đã phát hành: **26.8.18.2** (dạng cũ) |
 | Đặt tên phát hành | `tsudev-swico_YY.M.DDNN_x64-setup.exe` - `docs/VERSIONING.md`, có 33 test |
 | Namespace | `Tsudev.Audit.*` - **giữ nguyên**, chi tiết nội bộ |
-| Tên miền | `https://tsudev.com` (bộ test khẳng định điều này) |
+| Tên miền | `https://tsudev.com` (bộ test khẳng định điều này); trang sản phẩm `https://swico.tsudev.com` |
+| Hạng sản phẩm | **C - Ngoại tuyến** (`.standards/docs/AUTH_AND_ACCOUNT.md` mục 1) |
 | Giấy phép | Apache-2.0 |
 | Ký số | SignPath Foundation - **đang chờ duyệt** |
 
@@ -275,6 +278,22 @@ Nếu hôm nay đã phát hành rồi mà cần phát hành lại **trong cùng 
 tiếp theo là `26.8.1902` - `docs/VERSIONING.md` mục 6.
 
 ---
+
+### S007 ✅ (09/11/2026) - website, nhận diện, ba nợ quy ước, hai lỗi báo cáo
+
+- **Website `swico.tsudev.com`** (`website/`, README ở đó): tài liệu lấy từ tệp repo lúc
+  build, báo cáo mẫu từ `tools/demo-report` (máy GIẢ LẬP). Deploy: `cd website && npm run deploy`.
+  Chạy lại sau mỗi bản phát hành để trang Tải về lấy SHA-256 mới.
+- **QU-STD-1 xong:** Core nhúng `.standards/tokens/design-tokens.json`; `tokens/` cục bộ đã xóa.
+  Nâng bộ quy ước là báo cáo đổi theo.
+- **QU-STD-2 xong:** xóa `docs/DESIGN_SYSTEM.md`, `docs/PROJECT_STRUCTURE.md`,
+  `docs/templates/HANDOVER.md`; tài liệu sống trỏ sang `.standards/docs/`. Nhật ký cũ giữ nguyên.
+- **QU-6 tự giải:** bộ quy ước v3.2.0 (`BRAND_ASSETS.md`) quy định wordmark chữ lấy màu token
+  `text-primary`/`text-link`. Chân trang báo cáo đã theo; còn hai sắc cam/xanh ở **đầu trang**
+  (nền gradient xanh cố định, đo 5,25 và 4,58:1) - ngoại lệ "buộc dùng sắc cam thương hiệu".
+- **Lỗi thật tìm được nhờ chụp báo cáo:** mô tả in nguyên văn `<b>`; ba lỗi axe. Đã sửa + test.
+- ⚠️ Cạm bẫy: `.gitignore` chặn `tsudev-ket-qua-ra-quet-*/` (bảo vệ báo cáo máy thật) - vì thế
+  báo cáo mẫu đặt thư mục `mau-<máy>`. **Đừng nới `.gitignore`.**
 
 ### QU-4 ✅ ĐÃ XONG - báo cáo chạy hoàn toàn bằng `tokens/`
 

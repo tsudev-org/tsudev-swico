@@ -1,13 +1,31 @@
+<img src="assets/tsudev-logo-144.png" alt="tsudev" height="56">
+
 # tsudev SWICO
-
-<img src="assets/tsudev-logo-144.png" alt="tsudev" align="right" height="120">
-
 
 Kiểm tra tình trạng bản quyền Windows/Office và thu thập cấu hình phần cứng -
 **một file `.exe` duy nhất**, không cần cài .NET Runtime.
 
-[![CI](https://github.com/tsudev-tsudev/swico/actions/workflows/ci.yml/badge.svg)](https://github.com/tsudev-tsudev/swico/actions/workflows/ci.yml)
+Một sản phẩm của [tsudev](https://tsudev.com).
+
+**Hạng sản phẩm: C - Ngoại tuyến** (theo `.standards/docs/AUTH_AND_ACCOUNT.md`
+mục 1): mọi chức năng quét chạy trọn vẹn không cần Internet và không cần tài
+khoản; kết nối mạng duy nhất là kiểm tra phiên bản mới, tắt được bằng
+`--no-update-check`.
+
+**Trang sản phẩm:** [swico.tsudev.com](https://swico.tsudev.com) - tải về, hướng
+dẫn, báo cáo mẫu xem trực tiếp trên trình duyệt.
+
+[![CI](https://github.com/tsudev-org/tsudev-swico/actions/workflows/ci.yml/badge.svg)](https://github.com/tsudev-org/tsudev-swico/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/tsudev-org/tsudev-swico)](https://github.com/tsudev-org/tsudev-swico/releases/latest)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
+<p>
+  <img src="website/public/anh/bao-cao-ban-quyen-sang.png" alt="Báo cáo bản quyền mẫu: điểm rủi ro 47/100, 4 dấu hiệu kích hoạt trái phép" width="49%">
+  <img src="website/public/anh/tong-hop-toi.png" alt="Trang tổng hợp nhiều máy ở chế độ tối" width="49%">
+</p>
+
+*Ảnh chụp báo cáo do chương trình sinh ra trên hai máy giả lập (`tools/demo-report`) - không có dữ liệu máy thật.
+[Xem báo cáo mẫu trực tiếp](https://swico.tsudev.com/bao-cao-mau/).*
 
 > **Báo cáo do công cụ tạo ra là dữ liệu kỹ thuật để tham khảo, không phải kết
 > luận pháp lý.** Xem [`EULA.txt`](EULA.txt) mục 3 trước khi dùng kết quả vào
@@ -35,11 +53,11 @@ so sánh `1901 < 1902 < 2001` luôn khớp thứ tự thời gian.
 > nguyên tên**. Công cụ đọc được cả hai dạng.
 
 Quy ước đầy đủ, kèm những gì bị cấm và vì sao: [`docs/VERSIONING.md`](docs/VERSIONING.md).
-Quy ước gốc của hệ sinh thái: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) mục 6.
+Quy ước gốc của hệ sinh thái: [`.standards/docs/DESIGN_SYSTEM.md`](.standards/docs/DESIGN_SYSTEM.md) mục 6.
 
 ## Cài đặt
 
-Tải từ [Releases](https://github.com/tsudev-tsudev/swico/releases):
+Tải từ [Releases](https://github.com/tsudev-org/tsudev-swico/releases):
 
 | Cách | Tệp | Dùng khi |
 |---|---|---|
@@ -104,7 +122,7 @@ Công cụ in **từng bước một, ngay khi bước đó chạy xong**, kèm 
 chính nó - không dồn lại tới cuối:
 
 Dưới đây là đầu ra **thật**, chép từ log CI chạy trên runner Windows
-([run 32201733164](https://github.com/tsudev-tsudev/swico/actions/runs/32201733164)):
+([run 32201733164](https://github.com/tsudev-org/tsudev-swico/actions/runs/32201733164)):
 
 ```
 [2] Đang thu thập cấu hình phần cứng...

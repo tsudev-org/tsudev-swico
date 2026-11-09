@@ -4,7 +4,7 @@
        Doi version O DAY -> exe, installer va winget manifest deu
        lay theo. Khong khai bao Version trong tung .csproj nua.
 
-       Dang so hieu: YY.M.DDNN (docs/DESIGN_SYSTEM.md muc 6)
+       Dang so hieu: YY.M.DDNN (.standards/docs/DESIGN_SYSTEM.md muc 6)
          26.8.1901 = ban thu 01 ngay 19/08/2026
          26.8.1902 = ban thu 02 CUNG ngay
          26.8.2001 = ban thu 01 ngay 20/08/2026
@@ -17,7 +17,7 @@
     <Product>tsudev SWICO</Product>
     <Copyright>Copyright (c) 2026 tsudev</Copyright>
     <Description>Kiểm tra bản quyền Windows và thu thập cấu hình phần cứng</Description>
-    <RepositoryUrl>https://github.com/tsudev-tsudev/swico</RepositoryUrl>
+    <RepositoryUrl>https://github.com/tsudev-org/tsudev-swico</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 

@@ -1,0 +1,342 @@
+{
+  "SchemaVersion": "3.0",
+  "ReportKind": "HardwareInventory",
+  "ComputerName": "DEMO-KHO-02",
+  "ScanTime": "2026-11-09T09:45:00+07:00",
+  "HtmlReportFile": "Windows_Hardware_Inventory_DEMO-KHO-02_20261109_094500.html",
+  "Title": "Báo cáo cấu hình phần cứng thiết bị",
+  "SummaryCards": [
+    {
+      "Value": "1",
+      "Label": "CPU vật lý"
+    },
+    {
+      "Value": "2 / 2",
+      "Label": "Khe RAM đang dùng / tổng khe"
+    },
+    {
+      "Value": "0",
+      "Label": "Mối đe dọa Defender đã ghi nhận"
+    }
+  ],
+  "Sections": [
+    {
+      "Id": "sec-overview",
+      "NavLabel": "1. Tổng quan",
+      "Heading": "1. Tổng quan thiết bị",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên máy",
+            "Loại thiết bị",
+            "Hãng sản xuất",
+            "Model",
+            "Số Serial (Chassis)",
+            "BIOS Version",
+            "Mainboard - Model",
+            "Tổng RAM"
+          ],
+          "Rows": [
+            [
+              "DEMO-KHO-02",
+              "Không xác định",
+              "Dell Inc.",
+              "Latitude 5440",
+              "DEMO002",
+              "1.21.0",
+              "0DEMO1",
+              "8.0 GB"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-cpu",
+      "NavLabel": "2. CPU",
+      "Heading": "2. CPU (Bộ xử lý)",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên CPU",
+            "Hãng sản xuất",
+            "Số nhân (Core)",
+            "Số luồng (Thread)",
+            "Xung nhịp tối đa (MHz)",
+            "Socket"
+          ],
+          "Rows": [
+            [
+              "13th Gen Intel(R) Core(TM) i5-1335U",
+              "-",
+              "10",
+              "12",
+              "2500",
+              "-"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-ram",
+      "NavLabel": "3. RAM",
+      "Heading": "3. RAM (Bộ nhớ) - 2 thanh đang cắm / 2 khe cắm",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Khe cắm (Slot)",
+            "Dung lượng",
+            "Tốc độ (MHz)",
+            "Loại RAM",
+            "Hãng sản xuất",
+            "Serial Number"
+          ],
+          "Rows": [
+            [
+              "DIMM1",
+              "4.0 GB",
+              "3200",
+              "DDR4",
+              "Samsung",
+              "-"
+            ],
+            [
+              "DIMM2",
+              "4.0 GB",
+              "3200",
+              "DDR4",
+              "Samsung",
+              "-"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-disk",
+      "NavLabel": "4. Ổ đĩa",
+      "Heading": "4. Ổ đĩa & phân vùng",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên / Model",
+            "Chuẩn giao tiếp",
+            "Dung lượng",
+            "Serial Number",
+            "Firmware"
+          ],
+          "Rows": [
+            [
+              "NVMe DEMO SSD 512GB",
+              "SCSI",
+              "476.9 GB",
+              "DEMO-0000-0001",
+              "2B2QEXM7"
+            ]
+          ],
+          "Searchable": false
+        },
+        {
+          "Title": "",
+          "Columns": [
+            "Ổ đĩa",
+            "Nhãn",
+            "Hệ thống file",
+            "Tổng dung lượng",
+            "Dung lượng trống",
+            "Tỷ lệ còn trống (%)"
+          ],
+          "Rows": [
+            [
+              "-",
+              "Không đọc được phân vùng nào",
+              "-",
+              "-",
+              "-",
+              "-"
+            ]
+          ],
+          "Searchable": true
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-gpu",
+      "NavLabel": "5. GPU",
+      "Heading": "5. Card đồ họa (GPU)",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên GPU",
+            "VRAM (ước tính)",
+            "Độ phân giải hiện tại",
+            "Phiên bản Driver"
+          ],
+          "Rows": [
+            [
+              "Intel(R) UHD Graphics 770",
+              "1.0 GB",
+              "1920 x 1080",
+              "31.0.101.5186"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-net",
+      "NavLabel": "6. Mạng",
+      "Heading": "6. Card mạng (đang hoạt động)",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên adapter",
+            "Địa chỉ MAC",
+            "Địa chỉ IP",
+            "Default Gateway",
+            "DHCP"
+          ],
+          "Rows": [
+            [
+              "Intel(R) Ethernet Connection (17) I219-LM",
+              "00:00:5E:00:53:01",
+              "192.0.2.24",
+              "192.0.2.1",
+              "Có"
+            ]
+          ],
+          "Searchable": true
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-drivers",
+      "NavLabel": "7. Driver lỗi",
+      "Heading": "7. Driver lỗi trong Device Manager",
+      "Description": "Liệt kê thiết bị có mã lỗi (ConfigManagerErrorCode khác 0) - tương đương dấu chấm than vàng hoặc dấu X đỏ trong Device Manager.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên thiết bị",
+            "Mã lỗi",
+            "Ý nghĩa",
+            "Nhà sản xuất"
+          ],
+          "Rows": [
+            [
+              "-",
+              "Không phát hiện thiết bị nào bị lỗi driver",
+              "-",
+              "-"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-integrity",
+      "NavLabel": "8. Toàn vẹn hệ thống",
+      "Heading": "8. Toàn vẹn file hệ thống & driver",
+      "Description": "Dùng 2 công cụ CHÍNH THỨC của Windows: <b>DISM CheckHealth</b> kiểm tra nhanh kho thành phần hệ thống, và <b>System File Checker</b> xác minh từng file hệ thống/driver so với bản gốc.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Công cụ kiểm tra",
+            "Kết quả",
+            "Thời gian chạy"
+          ],
+          "Rows": [
+            [
+              "DISM CheckHealth",
+              "CÓ THỂ SỬA ĐƯỢC - phát hiện lỗi component store, nên chạy DISM /RestoreHealth",
+              "Nhanh (<5 giây)"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "MethodNote": "Nếu kết quả báo lỗi, chạy với quyền Administrator: <code>DISM /Online /Cleanup-Image /RestoreHealth</code> rồi <code>sfc /scannow</code>. Mục System File Checker mặc định TẮT (mất 5-15 phút) - bật bằng tham số <code>--sfc</code>.",
+      "Badges": []
+    },
+    {
+      "Id": "sec-defender",
+      "NavLabel": "9. Chống mã độc",
+      "Heading": "9. Phát hiện mã độc - Windows Defender",
+      "Description": "Đọc trực tiếp trạng thái và <b>lịch sử phát hiện thật</b> từ Windows Defender - antivirus engine mặc định của Windows với cơ sở dữ liệu chữ ký được Microsoft cập nhật liên tục. Đây là phương pháp đáng tin cậy nhất để liệt kê file (.exe, .doc, ...) đã bị phát hiện nhiễm mã độc, thay vì tự dò quét bằng heuristic tự viết (vốn kém chính xác và dễ gây hiểu lầm).",
+      "Tables": [
+        {
+          "Title": "Trạng thái bảo vệ hiện tại",
+          "Columns": [
+            "Bảo vệ thời gian thực",
+            "Chống virus bật",
+            "Phiên bản chữ ký",
+            "Tuổi chữ ký (ngày)",
+            "Quét nhanh gần nhất"
+          ],
+          "Rows": [
+            [
+              "Không lấy được",
+              "-",
+              "-",
+              "-",
+              "-"
+            ]
+          ],
+          "Searchable": false
+        },
+        {
+          "Title": "Lịch sử phát hiện mối đe dọa (file .exe, .doc, ... đã bị Defender gắn cờ)",
+          "Columns": [
+            "Tên mối đe dọa",
+            "File/Đường dẫn",
+            "Thời gian phát hiện",
+            "Đã xử lý"
+          ],
+          "Rows": [
+            [
+              "-",
+              "Không phát hiện mối đe dọa nào trong lịch sử quét của Windows Defender",
+              "-",
+              "-"
+            ]
+          ],
+          "Searchable": true
+        }
+      ],
+      "MethodNote": "Danh sách trên chỉ hiện các mối đe dọa Windows Defender ĐÃ TỪNG quét thấy. Để chắc chắn máy sạch tại thời điểm hiện tại, hãy chạy Quick/Full Scan trong Windows Security trước khi chạy lại tool này.",
+      "Badges": [
+        {
+          "Text": "0 mối đe dọa",
+          "Level": "None"
+        }
+      ]
+    }
+  ],
+  "VerdictLevel": "Unknown",
+  "RiskFindingsCount": 0,
+  "HardwareSummary": "Dell Inc. Latitude 5440 · 1 CPU · 8.0 GB",
+  "Warnings": [
+    "Không đọc được trạng thái Windows Defender (có thể đã bị thay bằng AV khác, hoặc thiếu quyền Administrator)."
+  ]
+}

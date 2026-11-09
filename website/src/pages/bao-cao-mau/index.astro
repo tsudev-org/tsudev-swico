@@ -1,0 +1,58 @@
+---
+import TaiLieu from '../../components/TaiLieu.astro';
+import { danhSachMau } from '../../lib/bao-cao-mau';
+
+// Báo cáo mẫu sinh bằng chính mã dựng báo cáo của chương trình (tools/demo-report), từ HAI máy giả lập.
+// Không có dữ liệu máy thật nào: tên máy, serial, MAC, IP đều bịa (IP thuộc dải tài liệu 192.0.2.0/24).
+const mau = danhSachMau();
+const mucLuc = [
+  { id: 'xem-truc-tiep', ten: 'Xem trực tiếp' },
+  { id: 'anh-chup', ten: 'Ảnh chụp' },
+  { id: 'doc-bao-cao', ten: 'Đọc báo cáo thế nào' },
+];
+---
+<TaiLieu tieuDe="Báo cáo mẫu" moTa="Xem báo cáo mẫu của tsudev SWICO ngay trên trình duyệt: báo cáo bản quyền, báo cáo phần cứng và trang tổng hợp nhiều máy, kèm tệp JSON." duongDan="/bao-cao-mau/" mucLuc={mucLuc}>
+  <h1>Báo cáo mẫu</h1>
+  <p>Các báo cáo dưới đây do chính mã dựng báo cáo của chương trình sinh ra, từ hai máy <strong>giả lập</strong>: một máy sạch và một máy có dấu hiệu kích hoạt trái phép. Tên máy, số serial, địa chỉ MAC và IP đều là dữ liệu bịa.</p>
+
+  <h2 id="xem-truc-tiep">Xem trực tiếp</h2>
+  <p><a class="nut nut--chinh" href={mau.tongHop}>Mở trang tổng hợp</a></p>
+  <div class="bang" tabindex="0" role="region" aria-label="Danh sách báo cáo mẫu, cuộn ngang được">
+    <table>
+      <thead><tr><th scope="col">Máy</th><th scope="col">Loại báo cáo</th><th scope="col">Kết luận</th><th scope="col">Tệp</th></tr></thead>
+      <tbody>
+        {mau.baoCao.map((b) => (
+          <tr>
+            <td>{b.may}</td>
+            <td>{b.loai}</td>
+            <td>{b.ketLuan}</td>
+            <td><a href={b.html}>HTML</a> · <a href={b.json}>JSON</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="anh-chup">Ảnh chụp</h2>
+  <figure class="minh-hoa">
+    <img src="/anh/bao-cao-ban-quyen-sang.png" alt="Báo cáo bản quyền của máy có dấu hiệu kích hoạt trái phép: 4 dấu hiệu, điểm rủi ro 47 trên 100" width="1280" height="800" loading="lazy">
+    <figcaption>Báo cáo bản quyền, máy có dấu hiệu kích hoạt trái phép.</figcaption>
+  </figure>
+  <figure class="minh-hoa">
+    <img src="/anh/bao-cao-ban-quyen-toi.png" alt="Cùng báo cáo bản quyền ở chế độ tối" width="1280" height="800" loading="lazy">
+    <figcaption>Cùng báo cáo, chế độ tối theo hệ điều hành.</figcaption>
+  </figure>
+  <figure class="minh-hoa">
+    <img src="/anh/phan-cung-sang.png" alt="Báo cáo cấu hình phần cứng: thông tin máy, CPU, RAM, ổ đĩa" width="1280" height="800" loading="lazy">
+    <figcaption>Báo cáo phần cứng.</figcaption>
+  </figure>
+
+  <h2 id="doc-bao-cao">Đọc báo cáo thế nào</h2>
+  <ul>
+    <li><strong>Thẻ tóm tắt</strong> ở đầu báo cáo: số phần mềm, số SKU Windows hợp lệ, Office, số dấu hiệu và điểm rủi ro.</li>
+    <li><strong>Điểm rủi ro 0 tới 100</strong> cộng trọng số từng nhóm dấu hiệu. Cách tính in ngay trong mục 3 của báo cáo.</li>
+    <li><strong>Mục 5, Cần kiểm tra thủ công</strong>: những điều công cụ không tự kết luận được, ví dụ hồ sơ mua bản quyền của tổ chức.</li>
+    <li>Ô <strong>Lọc trong bảng</strong> chạy ngay trong tệp HTML, không cần Internet.</li>
+    <li>Báo cáo là dữ liệu kỹ thuật để tham khảo, <strong>không phải kết luận pháp lý</strong>. Đọc <a href="/dieu-khoan/">Thỏa thuận sử dụng</a> trước khi dùng kết quả cho quyết định có hệ quả với con người.</li>
+  </ul>
+</TaiLieu>

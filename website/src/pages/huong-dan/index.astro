@@ -1,0 +1,21 @@
+---
+import TaiLieu from '../../components/TaiLieu.astro';
+import { mucMd, renderMd } from '../../lib/noi-dung';
+
+// Một nguồn: các mục này lấy nguyên văn từ README.md của repo. Sửa ở README, không sửa ở đây.
+const MUC = ['Cách dùng', 'Kết quả đầu ra', 'Tự động cập nhật', 'Đánh số phiên bản'];
+const { html } = renderMd('README.md', { md: mucMd('README.md', MUC) });
+const mucLuc = [
+  { id: 'cách-dùng', ten: 'Cách dùng' },
+  { id: 'theo-dõi-tiến-trình-khi-đang-quét', ten: 'Theo dõi tiến trình' },
+  { id: 'mã-thoát-cho-tích-hợp-rmmgiám-sát', ten: 'Mã thoát' },
+  { id: 'kết-quả-đầu-ra', ten: 'Kết quả đầu ra' },
+  { id: 'tự-động-cập-nhật', ten: 'Tự động cập nhật' },
+  { id: 'đánh-số-phiên-bản', ten: 'Đánh số phiên bản' },
+];
+---
+<TaiLieu tieuDe="Hướng dẫn sử dụng" moTa="Hướng dẫn dùng tsudev SWICO: tham số dòng lệnh, theo dõi tiến trình, mã thoát cho RMM, cấu trúc thư mục báo cáo và cơ chế tự cập nhật." duongDan="/huong-dan/" mucLuc={mucLuc} nguon="README.md">
+  <h1>Hướng dẫn sử dụng</h1>
+  <p>Nhấp đúp <code>swico.exe</code> là quét đầy đủ và mở báo cáo khi xong. Phần dưới dành cho người cần điều khiển chi tiết hơn: chọn phạm vi quét, chạy im lặng, đọc mã thoát, gom kết quả nhiều máy.</p>
+  <Fragment set:html={html} />
+</TaiLieu>

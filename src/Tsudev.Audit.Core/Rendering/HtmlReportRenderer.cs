@@ -289,7 +289,10 @@ public sealed class HtmlReportRenderer
         // role+aria-label giu nguyen y nghia cho trinh doc man hinh.
         sb.Append("<span class=\"brand-logo\" role=\"img\" aria-label=\"")
           .Append(E(BrandName)).Append("\"></span>");
-        sb.Append("<span class=\"brand-word\"><span class=\"bw-tsu\">tsu</span><span class=\"bw-dev\">dev</span></span>");
+        // Chu "tsudev" la LOGOTYPE (WCAG 1.4.3 mien yeu cau tuong phan cho logo) va
+        // ten da do logo phia truoc doc len, nen an khoi trinh doc man hinh de khong
+        // doc hai lan "tsudev tsudev".
+        sb.Append("<span class=\"brand-word\" aria-hidden=\"true\"><span class=\"bw-tsu\">tsu</span><span class=\"bw-dev\">dev</span></span>");
         sb.Append("</a>\n");
     }
 
@@ -348,7 +351,7 @@ public sealed class HtmlReportRenderer
         }
 
         if (!string.IsNullOrWhiteSpace(section.Description))
-            sb.Append("<p class=\"desc\">").Append(E(section.Description)).Append("</p>\n");
+            sb.Append("<p class=\"desc\">").Append(Prose(section.Description)).Append("</p>\n");
 
         if (section.Verdict is { } v)
         {
@@ -365,7 +368,7 @@ public sealed class HtmlReportRenderer
 
         if (!string.IsNullOrWhiteSpace(section.MethodNote))
             sb.Append("<details class=\"method\"><summary>Về phương pháp và giới hạn</summary><p>")
-              .Append(E(section.MethodNote)).Append("</p></details>\n");
+              .Append(Prose(section.MethodNote)).Append("</p></details>\n");
 
         sb.Append("</section>\n");
     }
@@ -377,7 +380,7 @@ public sealed class HtmlReportRenderer
         if (!string.IsNullOrWhiteSpace(table.Title))
             sb.Append("<h3>").Append(E(table.Title)).Append("</h3>\n");
         if (!string.IsNullOrWhiteSpace(table.Description))
-            sb.Append("<p class=\"desc\">").Append(E(table.Description)).Append("</p>\n");
+            sb.Append("<p class=\"desc\">").Append(Prose(table.Description)).Append("</p>\n");
 
         // O tim kiem dung JS thuan, khong phu thuoc thu vien ngoai: bao cao phai
         // mo duoc tren may khong co internet.
@@ -385,7 +388,10 @@ public sealed class HtmlReportRenderer
             sb.Append("<input class=\"filter\" type=\"search\" placeholder=\"Lọc trong bảng...\" ")
               .Append("oninput=\"tsudevFilter(this)\" aria-label=\"Lọc trong bảng\">\n");
 
-        sb.Append("<div class=\"table-scroll\"><table>\n<thead><tr>");
+        // Bang rong thi cuon ngang: vung cuon phai nhan focus de cuon duoc bang ban
+        // phim (WCAG 2.1.1; axe scrollable-region-focusable).
+        sb.Append("<div class=\"table-scroll\" tabindex=\"0\" role=\"region\" aria-label=\"")
+          .Append(E(string.IsNullOrWhiteSpace(table.Title) ? "Bảng dữ liệu" : table.Title)).Append("\"><table>\n<thead><tr>");
         foreach (var col in table.Columns) sb.Append("<th>").Append(E(col)).Append("</th>");
         sb.Append("</tr></thead>\n<tbody>\n");
 
@@ -425,6 +431,26 @@ public sealed class HtmlReportRenderer
     /// thu thap deu phai di qua day. Co unit test bao ve hanh vi nay.
     /// </summary>
     internal static string E(string? value) => WebUtility.HtmlEncode(value ?? "");
+
+    /// <summary>
+    /// Van ban mo ta (Description, MethodNote) duoc phep mang DUNG NAM the trinh
+    /// bay: b, /b, code, /code, br. Cach lam: ma hoa TOAN BO truoc, roi chi mo lai
+    /// dung nam chuoi da ma hoa do. The co thuoc tinh (vi du "b onclick=...") khong
+    /// khop chuoi nao nen van bi ma hoa - du lieu doc tu may duoc quet (ten SKU,
+    /// ten phan mem) di qua day cung khong the chen script hay thuoc tinh.
+    ///
+    /// Truoc 09/11/2026 cac mo ta di qua E() nen bao cao in nguyen van
+    /// "&lt;b&gt;hop le&lt;/b&gt;" ra man hinh.
+    /// </summary>
+    internal static string Prose(string? value)
+    {
+        var s = E(value);
+        foreach (var tag in ProseTags)
+            s = s.Replace(WebUtility.HtmlEncode(tag), tag, StringComparison.Ordinal);
+        return s;
+    }
+
+    private static readonly string[] ProseTags = { "<b>", "</b>", "<code>", "</code>", "<br>" };
 
     internal static string RiskClass(RiskLevel level) => level switch
     {

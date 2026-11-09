@@ -1,0 +1,355 @@
+{
+  "SchemaVersion": "3.0",
+  "ReportKind": "LicenseAudit",
+  "ComputerName": "DEMO-KHO-02",
+  "ScanTime": "2026-11-09T09:44:00+07:00",
+  "HtmlReportFile": "Windows_License_Audit_DEMO-KHO-02_20261109_094400.html",
+  "Title": "Báo cáo kiểm tra bản quyền Windows & phần mềm đã cài đặt",
+  "SummaryCards": [
+    {
+      "Value": "6",
+      "Label": "Tổng số phần mềm đã cài"
+    },
+    {
+      "Value": "1/1",
+      "Label": "SKU Windows hợp lệ / tổng số"
+    },
+    {
+      "Value": "-",
+      "Label": "Office (không phát hiện)"
+    },
+    {
+      "Value": "4",
+      "Label": "Dấu hiệu kích hoạt trái phép"
+    },
+    {
+      "Value": "47/100",
+      "Label": "Điểm rủi ro (Cao)"
+    }
+  ],
+  "Sections": [
+    {
+      "Id": "sec-os",
+      "NavLabel": "1. Hệ điều hành",
+      "Heading": "1. Thông tin hệ điều hành",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên máy",
+            "Hệ điều hành",
+            "Phiên bản (Build)",
+            "Kiến trúc",
+            "Nhà sản xuất máy",
+            "Model",
+            "BIOS Serial",
+            "Ngày cài đặt OS",
+            "Thời gian quét"
+          ],
+          "Rows": [
+            [
+              "DEMO-KHO-02",
+              "Microsoft Windows 11 Pro",
+              "10.0.26200 (Build 26200)",
+              "64-bit",
+              "Dell Inc.",
+              "Latitude 5440",
+              "DEMO002",
+              "12/03/2026",
+              "09:44 09/11/2026"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-license",
+      "NavLabel": "2. Bản quyền Windows",
+      "Heading": "2. Trạng thái bản quyền Windows (Activation License)",
+      "Description": "Tổng hợp: 1 sản phẩm: 1 hợp lệ, 0 có vấn đề, 0 đang dùng thử, 0 không xác định. Windows khai báo nhiều SKU dưới cùng một sản phẩm; kết luận chỉ là <b>hợp lệ</b> khi <b>không còn SKU nào</b> ở trạng thái có vấn đề hoặc đang trong thời gian dùng thử.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Sản phẩm",
+            "Mô tả",
+            "Trạng thái",
+            "Product Key (5 ký tự cuối)",
+            "Kênh license"
+          ],
+          "Rows": [
+            [
+              "Windows(R), Professional edition",
+              "Windows(R) Operating System, VOLUME_KMSCLIENT channel",
+              "Licensed (Đã kích hoạt)",
+              "T83GX",
+              "Volume:GVLK"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "PreformattedText": "Không tìm thấy slmgr.vbs trên máy này.",
+      "Badges": []
+    },
+    {
+      "Id": "sec-office",
+      "NavLabel": "2b. Office/M365",
+      "Heading": "2b. Bản quyền Microsoft Office / Microsoft 365",
+      "Description": "Kiểm tra qua công cụ chính thức <code>ospp.vbs</code> đi kèm bộ cài Office. Nếu máy không cài Office, mục này sẽ trống - đây KHÔNG phải lỗi.<br><b>Tổng hợp:</b> Không phát hiện Office trên máy.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Sản phẩm",
+            "Mô tả",
+            "Trạng thái",
+            "SKU ID",
+            "Nguồn dữ liệu"
+          ],
+          "Rows": [
+            [
+              "-",
+              "Không tìm thấy Office/M365 cài đặt trên máy (đây KHÔNG phải lỗi)",
+              "-",
+              "-",
+              "-"
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-verdict",
+      "NavLabel": "3. Đánh giá hợp pháp",
+      "Heading": "3. Đánh giá tính hợp pháp bản quyền Windows",
+      "Tables": [
+        {
+          "Title": "Phạm vi quét (6 hạng mục cố định - luôn hiển thị dù có phát hiện hay không)",
+          "Columns": [
+            "Hạng mục quét",
+            "Nguồn dữ liệu",
+            "Mức độ nếu phát hiện",
+            "Số phát hiện trên máy này"
+          ],
+          "Rows": [
+            [
+              "Tên file/thư mục nghi vấn",
+              "%ProgramFiles%, %ProgramFiles(x86)%, %ProgramData%, %SystemDrive%\\, %TEMP%, %USERPROFILE%\\Desktop, %USERPROFILE%\\Downloads",
+              "Cao",
+              "1"
+            ],
+            [
+              "Scheduled Task nghi vấn",
+              "Task Scheduler (trừ task hệ thống hợp lệ SoftwareProtectionPlatform)",
+              "Cao",
+              "0"
+            ],
+            [
+              "Windows Service nghi vấn",
+              "Danh sách toàn bộ Windows Service (Win32_Service)",
+              "Cao",
+              "1"
+            ],
+            [
+              "Hosts file bị chỉnh sửa",
+              "%SystemRoot%\\System32\\drivers\\etc\\hosts",
+              "Trung bình",
+              "0"
+            ],
+            [
+              "File hook hệ thống bản quyền",
+              "%SystemRoot%\\System32 / %SystemRoot%\\SysWOW64 (SppExtComObjHook.dll, SppExtComObjPatcher.exe)",
+              "Rất cao",
+              "1"
+            ],
+            [
+              "KMS server tùy chỉnh trong registry",
+              "HKLM\\...\\SoftwareProtectionPlatform",
+              "Cao",
+              "1"
+            ]
+          ],
+          "Searchable": false
+        },
+        {
+          "Title": "Danh sách chi tiết từng dấu hiệu phát hiện được",
+          "Columns": [
+            "Hạng mục",
+            "Phát hiện",
+            "Mức độ",
+            "Diễn giải"
+          ],
+          "Rows": [
+            [
+              "File hook hệ thống bản quyền",
+              "C:\\Windows\\System32/SppExtComObjHook.dll",
+              "Rất cao",
+              "File hook thay thế trực tiếp thành phần lõi bảo vệ bản quyền của Windows - dấu hiệu rất mạnh của kích hoạt trái phép."
+            ],
+            [
+              "Tên file/thư mục nghi vấn",
+              "C:\\ProgramData\\KMSAuto",
+              "Cao",
+              "Tên trùng khớp với công cụ kích hoạt trái phép phổ biến (KMSAuto)."
+            ],
+            [
+              "Windows Service nghi vấn",
+              "KMSAutoSvc (KMSAuto Service)",
+              "Cao",
+              "Windows Service mang tên đặc trưng của công cụ kích hoạt trái phép (KMSAuto)."
+            ],
+            [
+              "KMS server tùy chỉnh trong registry",
+              "KeyManagementServiceName = kms.example.invalid",
+              "Cao",
+              "Máy được cấu hình trỏ tới một máy chủ KMS tùy chỉnh. Hợp lệ nếu tổ chức có KMS riêng; bất thường nếu không."
+            ]
+          ],
+          "Searchable": false
+        }
+      ],
+      "MethodNote": "<b>Về phương pháp và giới hạn:</b> Đây là quét heuristic theo các dấu hiệu ĐÃ BIẾT của những công cụ kích hoạt trái phép phổ biến - KHÔNG thể phát hiện 100% mọi biến thể, đặc biệt các bản tùy biến/đổi tên mới hoặc kỹ thuật kích hoạt qua Digital License/HWID không để lại artifact rõ ràng. Không có phát hiện KHÔNG đồng nghĩa máy sạch tuyệt đối; ngược lại có phát hiện cũng nên xác minh thủ công trước khi kết luận, vì một số tên file/service có thể trùng lặp ngẫu nhiên. Kết quả này mang tính hỗ trợ ra quyết định, KHÔNG phải bằng chứng pháp lý thay thế cho việc đối chiếu hồ sơ mua bản quyền chính thức của tổ chức.<br><br><b>Cách tính điểm rủi ro:</b> API Genuine thất bại +40đ; mỗi phát hiện Rất cao +15đ (tối đa 30đ); Cao +10đ (tối đa 30đ); Trung bình +5đ (tối đa 15đ); mỗi phần mềm cần kiểm tra thủ công +2đ (tối đa 15đ).",
+      "Verdict": {
+        "Level": 3,
+        "Title": "❌ CÓ DẤU HIỆU RÕ RÀNG CỦA KÍCH HOẠT TRÁI PHÉP",
+        "Detail": "Windows API và/hoặc dấu hiệu artifact cho thấy khả năng cao máy đang dùng license không hợp pháp. Cần kiểm tra thủ công ngay và đối chiếu với hồ sơ mua bản quyền của tổ chức."
+      },
+      "Badges": [
+        {
+          "Text": "Điểm rủi ro: 47/100 (Cao)",
+          "Level": "High"
+        },
+        {
+          "Text": "Rất cao: 1",
+          "Level": "Critical"
+        },
+        {
+          "Text": "Cao: 3",
+          "Level": "High"
+        }
+      ]
+    },
+    {
+      "Id": "sec-software",
+      "NavLabel": "4. Phần mềm đã cài",
+      "Heading": "4. Danh sách phần mềm đã cài đặt (6)",
+      "Description": "Đọc từ 3 nhánh registry Uninstall (64-bit, 32-bit và per-user) - đầy đủ hơn nhiều so với <code>Win32_Product</code>. Cột \"Phân loại\" là bảng tra theo từ khóa, không đầy đủ 100%.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên phần mềm",
+            "Phiên bản",
+            "Nhà phát hành",
+            "Ngày cài đặt",
+            "Thư mục cài đặt",
+            "Phân loại",
+            "Mã sản phẩm (GUID)"
+          ],
+          "Rows": [
+            [
+              "7-Zip 24.09 (x64)",
+              "24.09",
+              "Igor Pavlov",
+              "15/03/2026",
+              "-",
+              "Nén/giải nén",
+              "{A3}"
+            ],
+            [
+              "KMSAuto Net",
+              "1.5.4",
+              "-",
+              "15/03/2026",
+              "-",
+              "Chưa phân loại",
+              "{B1}"
+            ],
+            [
+              "Microsoft Edge",
+              "142.0.3595.53",
+              "Microsoft Corporation",
+              "15/03/2026",
+              "-",
+              "Trình duyệt",
+              "{A1}"
+            ],
+            [
+              "Mozilla Firefox (x64 vi)",
+              "144.0",
+              "Mozilla",
+              "15/03/2026",
+              "-",
+              "Trình duyệt",
+              "{A2}"
+            ],
+            [
+              "UniKey 4.6 RC2",
+              "4.6",
+              "Pham Kim Long",
+              "15/03/2026",
+              "-",
+              "Chưa phân loại",
+              "{A5}"
+            ],
+            [
+              "Zalo",
+              "25.10.1",
+              "VNG Corp.",
+              "15/03/2026",
+              "-",
+              "Chưa phân loại",
+              "{A4}"
+            ]
+          ],
+          "Searchable": true
+        }
+      ],
+      "Badges": []
+    },
+    {
+      "Id": "sec-manual",
+      "NavLabel": "5. Cần kiểm tra thủ công",
+      "Heading": "5. Phần mềm cần kiểm tra thủ công (1)",
+      "Description": "Các phần mềm thiếu thông tin Nhà phát hành hoặc Phiên bản trong registry - thường là phần mềm portable, tool nội bộ, hoặc cài đặt không đúng chuẩn. Nên kiểm tra nguồn gốc bản quyền thủ công.",
+      "Tables": [
+        {
+          "Title": "",
+          "Columns": [
+            "Tên phần mềm",
+            "Phiên bản",
+            "Nhà phát hành",
+            "Thư mục cài đặt",
+            "Mã sản phẩm (GUID)"
+          ],
+          "Rows": [
+            [
+              "KMSAuto Net",
+              "1.5.4",
+              "-",
+              "-",
+              "{B1}"
+            ]
+          ],
+          "Searchable": true
+        }
+      ],
+      "Badges": []
+    }
+  ],
+  "VerdictLevel": "Bad",
+  "VerdictText": "❌ CÓ DẤU HIỆU RÕ RÀNG CỦA KÍCH HOẠT TRÁI PHÉP",
+  "RiskFindingsCount": 4,
+  "RiskScore": {
+    "Value": 47,
+    "Band": 3,
+    "Label": "Cao"
+  },
+  "DetectionRulesVersion": "2026.08.1",
+  "Warnings": []
+}

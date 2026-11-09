@@ -47,4 +47,4 @@ dứt hợp đồng lao động hay xử phạt nào. Chi tiết xem file EULA.t
 
 MÃ NGUỒN VÀ TÀI LIỆU
 --------------------
-https://github.com/tsudev-tsudev/swico
+https://github.com/tsudev-org/tsudev-swico

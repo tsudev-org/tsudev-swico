@@ -1,0 +1,10 @@
+---
+import TaiLieu from '../components/TaiLieu.astro';
+import { docTep } from '../lib/noi-dung';
+const eula = docTep('EULA.txt');
+---
+<TaiLieu tieuDe="Thỏa thuận sử dụng" moTa="Điều khoản sử dụng phần mềm tsudev SWICO (EULA): phạm vi sử dụng, giới hạn trách nhiệm, và lưu ý báo cáo chỉ là dữ liệu kỹ thuật, không phải kết luận pháp lý." duongDan="/dieu-khoan/" nguon="EULA.txt">
+  <h1>Thỏa thuận sử dụng</h1>
+  <p>Văn bản dưới đây là nguyên văn tệp <code>EULA.txt</code> hiển thị trong trình cài đặt. Mã nguồn của chương trình phát hành theo <a href="/ban-quyen/">giấy phép Apache 2.0</a>; thỏa thuận này nói về cách dùng kết quả báo cáo.</p>
+  <pre class="giay-phep" tabindex="0">{eula}</pre>
+</TaiLieu>

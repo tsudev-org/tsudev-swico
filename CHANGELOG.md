@@ -6,6 +6,39 @@
 
 ## [Chưa phát hành]
 
+### Sửa
+
+- **Báo cáo in nguyên văn thẻ HTML.** Mô tả của nhiều mục hiện
+  `<b>hợp lệ</b>`, `<code>ospp.vbs</code>`, `<br>` ra màn hình vì renderer mã hóa
+  cả thẻ trình bày. Nay mã hóa toàn bộ rồi chỉ mở lại đúng năm chuỗi `<b>`,
+  `</b>`, `<code>`, `</code>`, `<br>` - thẻ có thuộc tính hay `<script>` từ dữ
+  liệu máy quét vẫn bị mã hóa (+5 test).
+- **Ba lỗi khả năng truy cập trong báo cáo** (axe-core, WCAG 2.2 AA): chữ phụ
+  `text-muted` chỉ đạt 4,13:1; chữ "dev" màu cam ở chân trang 3,29:1; vùng bảng
+  cuộn ngang không nhận focus bàn phím. Nay 0 lỗi ở cả chế độ sáng và tối.
+- **Cập nhật tự động trỏ thẳng tới repo mới** `tsudev-org/tsudev-swico` thay vì
+  sống nhờ chuyển hướng từ `tsudev-tsudev/swico`. Bản đã cài vẫn cập nhật được
+  nhờ chuyển hướng của GitHub (tên cũ tuyệt đối không được tạo lại).
+
+### Thêm
+
+- **Trang sản phẩm [swico.tsudev.com](https://swico.tsudev.com):** tải về kèm
+  SHA-256 lấy lúc build, hướng dẫn (lấy từ README), triển khai hàng loạt
+  (GPO, RMM, PowerShell Remoting), **báo cáo mẫu xem trực tiếp**, bộ luật phát
+  hiện (đọc từ `detection-rules.json`, tải được), quyền riêng tư, EULA, nhật ký.
+  Không JavaScript, CSP chặt, 0 lỗi axe. Mã ở `website/`.
+- `tools/demo-report`: sinh báo cáo mẫu bằng chính mã dựng báo cáo, từ hai máy
+  giả lập - ảnh chụp công khai không bao giờ chứa dữ liệu máy thật.
+
+### Thay đổi
+
+- Token giao diện đọc từ `.standards/tokens/` (bộ quy ước chung); xóa bản sao
+  `tokens/` cục bộ và ba tài liệu quy ước trùng (`docs/DESIGN_SYSTEM.md`,
+  `docs/PROJECT_STRUCTURE.md`, `docs/templates/HANDOVER.md`).
+- Wordmark "tsudev" ở chân trang báo cáo lấy màu từ token `text-primary` /
+  `text-link` theo `.standards/docs/BRAND_ASSETS.md`.
+- README mở đầu theo nhận diện hệ tsudev, ghi hạng sản phẩm C.
+
 ### Nội bộ
 
 - **Bộ test chạy bằng xUnit.** `tests/unittests/Program.cs` (1313 dòng, 298 phép

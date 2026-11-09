@@ -1,0 +1,80 @@
+---
+import TaiLieu from '../../components/TaiLieu.astro';
+
+const mucLuc = [
+  { id: 'nguyen-tac', ten: 'Nguyên tắc' },
+  { id: 'thu-muc-chung', ten: 'Gom về thư mục chung' },
+  { id: 'gpo', ten: 'GPO (Group Policy)' },
+  { id: 'rmm', ten: 'RMM, Intune, script' },
+  { id: 'doc-ma-thoat', ten: 'Đọc mã thoát' },
+  { id: 'json', ten: 'Đọc kết quả JSON' },
+];
+---
+<TaiLieu tieuDe="Triển khai hàng loạt" moTa="Chạy tsudev SWICO trên nhiều máy cùng lúc qua GPO, RMM, Intune hoặc PowerShell: chế độ im lặng, gom báo cáo về thư mục chung, đọc mã thoát và JSON." duongDan="/huong-dan/trien-khai/" mucLuc={mucLuc}>
+  <h1>Triển khai hàng loạt</h1>
+  <p>Trang này dành cho quản trị viên cần rà soát hàng chục, hàng trăm máy. Mọi ví dụ dùng tham số có sẵn trong <code>swico.exe --help</code>.</p>
+
+  <h2 id="nguyen-tac">Nguyên tắc</h2>
+  <ul>
+    <li>Luôn thêm <code>--silent</code>: không mở trình duyệt, không hiện hộp thoại cập nhật. Có bản mới thì chương trình thoát với mã <code>30</code> để hệ thống triển khai tự xử lý.</li>
+    <li>Chạy bằng tài khoản có quyền quản trị (SYSTEM trong GPO, RMM). Thiếu quyền thì vẫn có báo cáo nhưng thiếu mục, mã thoát là <code>1</code>.</li>
+    <li>Thêm <code>--no-update-check</code> nếu máy đích không ra được Internet, để không mất 6 giây chờ mỗi máy.</li>
+    <li><code>--sfc</code> làm lần quét kéo dài 5 tới 15 phút. Chỉ bật khi thật sự cần kiểm toàn vẹn tệp hệ thống.</li>
+  </ul>
+
+  <h2 id="thu-muc-chung">Gom về thư mục chung</h2>
+  <p>Mỗi máy ghi kết quả vào một thư mục con mang tên máy và ngày quét, nên nhiều máy ghi chung một thư mục mạng không đè lên nhau. Sau đó chạy lại chương trình ở bất kỳ máy nào trỏ vào thư mục đó, hoặc mở <code>tsudev-tong-hop.html</code> mới nhất: trang tổng hợp đọc đệ quy mọi báo cáo bên dưới.</p>
+  <pre tabindex="0"><code>swico.exe --silent -o \\may-chu\ra-soat$\2026-11</code></pre>
+  <div class="chu-y"><p>Báo cáo chứa dữ liệu của máy thật: tên máy, số serial, địa chỉ MAC, danh sách phần mềm. Giới hạn quyền đọc thư mục chung cho đúng người cần xem, và xóa khi hết mục đích sử dụng.</p></div>
+
+  <h2 id="gpo">GPO (Group Policy)</h2>
+  <ol>
+    <li>Đặt <code>swico.exe</code> vào một thư mục chia sẻ chỉ-đọc, ví dụ <code>\\may-chu\netlogon\swico\</code>.</li>
+    <li>Tạo thư mục kết quả với quyền ghi cho tài khoản máy (<em>Domain Computers</em>).</li>
+    <li>Computer Configuration, Policies, Windows Settings, Scripts, <strong>Startup</strong>: thêm script dưới đây.</li>
+  </ol>
+  <pre tabindex="0"><code>@echo off
+"\\may-chu\netlogon\swico\swico.exe" --silent --no-update-check -o "\\may-chu\ra-soat$"
+exit /b 0</code></pre>
+  <p>Script khởi động chạy bằng SYSTEM nên có sẵn quyền quản trị, không hiện UAC.</p>
+
+  <h2 id="rmm">RMM, Intune, PowerShell từ xa</h2>
+  <p>PowerShell, chạy trên một máy rồi lấy mã thoát:</p>
+  <pre tabindex="0"><code>$p = Start-Process -FilePath 'C:\Tools\swico.exe' `
+      -ArgumentList '--silent','-o','C:\ProgramData\swico-ket-qua' `
+      -Wait -PassThru -NoNewWindow
+exit $p.ExitCode</code></pre>
+  <p>Chạy trên nhiều máy cùng lúc bằng PowerShell Remoting:</p>
+  <pre tabindex="0"><code>$may = Get-Content .\danh-sach-may.txt
+Invoke-Command -ComputerName $may -ScriptBlock {'{'}
+  &amp; 'C:\Tools\swico.exe' --silent --no-update-check -o 'C:\ProgramData\swico-ket-qua'
+  [pscustomobject]@{'{'} May = $env:COMPUTERNAME; MaThoat = $LASTEXITCODE {'}'}
+{'}'} | Format-Table May, MaThoat</code></pre>
+  <p>Nếu hệ RMM coi <strong>mọi</strong> mã khác 0 là script lỗi, thêm <code>--no-verdict-exit</code> để chỉ dùng nhóm mã sức khỏe công cụ.</p>
+
+  <h2 id="doc-ma-thoat">Đọc mã thoát</h2>
+  <div class="bang" tabindex="0" role="region" aria-label="Bảng mã thoát, cuộn ngang được">
+    <table>
+      <thead><tr><th scope="col">Mã</th><th scope="col">Nghĩa</th><th scope="col">Nên làm</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Hoàn tất, không phát hiện vấn đề</td><td>Không cần làm gì</td></tr>
+        <tr><td>1</td><td>Hoàn tất nhưng thiếu dữ liệu ở một số mục</td><td>Kiểm tra quyền quản trị, xem mục Cảnh báo trong báo cáo</td></tr>
+        <tr><td>2</td><td>Lỗi nghiêm trọng, không tạo được báo cáo</td><td>Kiểm tra quyền ghi thư mục đầu ra</td></tr>
+        <tr><td>3</td><td>Tham số dòng lệnh không hợp lệ</td><td>Sửa lệnh, xem <code>--help</code></td></tr>
+        <tr><td>10</td><td>Kết luận mức cảnh báo</td><td>Xem báo cáo, ví dụ Office chưa kích hoạt</td></tr>
+        <tr><td>20</td><td>Kết luận mức nghiêm trọng</td><td>Ưu tiên xem xét: có dấu hiệu kích hoạt trái phép</td></tr>
+        <tr><td>30</td><td>Cần cập nhật trước khi quét</td><td>Cài bản mới rồi chạy lại</td></tr>
+        <tr><td>130</td><td>Người dùng hủy bằng Ctrl+C</td><td>Chạy lại</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Nhiều điều kiện cùng xảy ra thì ưu tiên <code>2 &gt; 3 &gt; 130 &gt; 20 &gt; 10 &gt; 1 &gt; 0</code>.</p>
+
+  <h2 id="json">Đọc kết quả JSON</h2>
+  <p>Mỗi báo cáo HTML có một tệp <code>.json</code> cùng tên, theo lược đồ phiên bản <code>3.0</code>. Lọc nhanh các máy có kết luận nghiêm trọng:</p>
+  <pre tabindex="0"><code>Get-ChildItem \\may-chu\ra-soat$ -Recurse -Filter 'Windows_License_Audit_*.json' |
+  ForEach-Object {'{'} Get-Content $_.FullName -Raw | ConvertFrom-Json {'}'} |
+  Where-Object VerdictLevel -eq 'Bad' |
+  Select-Object ComputerName, ScanTime, VerdictText, @{'{'}n='Diem'; e={'{'} $_.RiskScore.Value {'}'}{'}'}</code></pre>
+  <p>Xem mẫu tệp JSON thật ở trang <a href="/bao-cao-mau/">Báo cáo mẫu</a>.</p>
+</TaiLieu>

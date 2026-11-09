@@ -1,6 +1,6 @@
 # ARCHITECTURE - Quyết định kiến trúc của riêng repo này
 
-> Bắt buộc theo `docs/PROJECT_STRUCTURE.md`. File này **không chép lại** nội dung
+> Bắt buộc theo `.standards/docs/PROJECT_STRUCTURE.md`. File này **không chép lại** nội dung
 > đã có ở nơi khác - theo `AGENTS.md` mục 1, mỗi tri thức ghi **một lần duy nhất**,
 > các phiên sau chỉ tham chiếu đường dẫn.
 
@@ -28,7 +28,7 @@ Lý do đầy đủ + lịch sử vi phạm: [`docs/STATE.md`](STATE.md) mục 4
 
 ## 3. Vì sao `src/` KHÔNG theo cây mẫu của `PROJECT_STRUCTURE.md`
 
-`docs/PROJECT_STRUCTURE.md` mô tả cây `src/components|features|services|utils` -
+`.standards/docs/PROJECT_STRUCTURE.md` mô tả cây `src/components|features|services|utils` -
 cây đó dành cho project Web/Electron của hệ sinh thái. Repo này là **.NET solution**
 nên `src/` chia theo **project biên dịch** (`Tsudev.Audit.Core` / `.Windows` / `.Cli`),
 đúng chuẩn .NET và đúng ranh giới Ports & Adapters ở mục 1.
