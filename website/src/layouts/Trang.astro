@@ -2,6 +2,7 @@
 // Khung chung: <head> theo ECOSYSTEM_IDENTITY mục 2.2, đầu trang, chân trang nối về tsudev.com (mục 4).
 import '../styles/fonts.css';
 import '../styles/tokens.css';
+import '../styles/palette.css';
 import '../styles/site.css';
 import { REPO_URL, SAN_PHAM, SITE } from '../lib/noi-dung';
 
@@ -16,24 +17,31 @@ const ogTitle = tieuDe ? `${tieuDe} - ${SAN_PHAM}` : SAN_PHAM;
 const url = `${SITE}${duongDan}`;
 const nam = new Date().getFullYear();
 const menu = [
-  { href: '/tai-ve/', ten: 'Tải về' },
   { href: '/huong-dan/', ten: 'Hướng dẫn' },
   { href: '/bao-cao-mau/', ten: 'Báo cáo mẫu' },
   { href: '/luat-phat-hien/', ten: 'Luật phát hiện' },
   { href: '/quyen-rieng-tu/', ten: 'Quyền riêng tư' },
 ];
+// Ba lựa chọn như tsudev.com (phiếu 20261110-05 mục 3); public/theme.js đọc data-chon-giao-dien.
+// Icon 16px nét 1.5, cùng hình với ThemeToggle của tsudev.com; màu theo currentColor.
+const cheDo = [
+  { ma: 'light', ten: 'Sáng', icon: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>' },
+  { ma: 'dark', ten: 'Tối', icon: '<path d="M20.5 14.3A8.5 8.5 0 1 1 9.7 3.5a6.8 6.8 0 0 0 10.8 10.8Z"/>' },
+  { ma: 'system', ten: 'Hệ thống', icon: '<rect x="2.8" y="4.4" width="18.4" height="12.2" rx="1.6"/><path d="M8.6 20.2h6.8M12 16.6v3.6"/>' },
+];
 const dangO = (href: string) => duongDan.startsWith(href);
 ---
 <!doctype html>
-<html lang="vi" data-theme="light">
+<html lang="vi" data-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title}</title>
     <meta name="description" content={moTa}>
-    <meta name="theme-color" content="#EEF4FB" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0F1B2D" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="color-scheme" content="dark light">
+    <!-- Giao diện: chạy chặn, SAU meta theme-color và TRƯỚC stylesheet, để không nháy màu (public/theme.js; CSP script-src 'self') -->
+    <script is:inline src="/theme.js"></script>
     <link rel="canonical" href={url}>
     <meta property="og:site_name" content="tsudev">
     <meta property="og:type" content="website">
@@ -65,36 +73,58 @@ const dangO = (href: string) => duongDan.startsWith(href);
             ))}
           </ul>
         </nav>
+        <div class="dau-trang__nut">
+          <a class="nut nut--phu nut--nho" href={REPO_URL} target="_blank" rel="noopener noreferrer">Mã nguồn</a>
+          <a class="nut nut--chinh nut--nho" href="/tai-ve/" aria-current={dangO('/tai-ve/') ? 'page' : undefined}>Tải về</a>
+        </div>
       </div>
     </header>
     <main id="noi-dung">
       <slot />
     </main>
     <footer class="chan-trang">
-      <div class="khung chan-trang__trong">
-        <div class="chan-trang__cot">
-          <a class="thuong-hieu thuong-hieu--nho" href="https://tsudev.com" target="_blank" rel="noopener noreferrer">
-            <img src="/brand/logo-mark.png" alt="" width="24" height="29">
-            <span>tsudev</span>
-          </a>
-          <p>(c) {nam} tsudev. tsudev SWICO là phần mềm mã nguồn mở, phát hành theo
-            <a href="/ban-quyen/">giấy phép Apache 2.0</a>. Báo cáo là dữ liệu kỹ thuật để tham khảo, không phải kết
-            luận pháp lý.</p>
-          <p><strong>tsudev</strong> là hệ sinh thái sản phẩm và công cụ phần mềm tại
-            <a href="https://tsudev.com" target="_blank" rel="noopener noreferrer">tsudev.com</a>.</p>
+      <div class="khung">
+        <div class="chan-trang__trong">
+          <div class="chan-trang__cot">
+            <a class="thuong-hieu thuong-hieu--nho" href="https://tsudev.com" target="_blank" rel="noopener noreferrer">
+              <img src="/brand/logo-mark.png" alt="" width="24" height="29">
+              <span>tsudev</span>
+            </a>
+            <p>tsudev SWICO là phần mềm mã nguồn mở, phát hành theo
+              <a href="/ban-quyen/">giấy phép Apache 2.0</a>. Báo cáo là dữ liệu kỹ thuật để tham khảo, không phải kết
+              luận pháp lý.</p>
+            <p><strong>tsudev</strong> là hệ sinh thái sản phẩm và công cụ phần mềm tại
+              <a href="https://tsudev.com" target="_blank" rel="noopener noreferrer">tsudev.com</a>.</p>
+          </div>
+          <nav aria-label="Hệ sinh thái tsudev">
+            <ul class="chan-trang__lien-ket">
+              <li><a href="https://tsudev.com/terms" target="_blank" rel="noopener noreferrer">Điều khoản sử dụng</a></li>
+              <li><a href="https://tsudev.com/privacy" target="_blank" rel="noopener noreferrer">Chính sách riêng tư</a></li>
+              <li><a href="https://tsudev.com/projects" target="_blank" rel="noopener noreferrer">Sản phẩm khác</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Dự án">
+            <ul class="chan-trang__lien-ket">
+              <li><a href="/nhat-ky/">Nhật ký thay đổi</a></li>
+              <li><a href="/dieu-khoan/">Thỏa thuận sử dụng (EULA)</a></li>
+              <li><a href="/ban-quyen/">Bản quyền</a></li>
+              <li><a href={REPO_URL} target="_blank" rel="noopener noreferrer">Mã nguồn</a></li>
+              <li><a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer">Báo lỗi, góp ý</a></li>
+            </ul>
+          </nav>
         </div>
-        <ul class="chan-trang__lien-ket">
-          <li><a href="https://tsudev.com/terms" target="_blank" rel="noopener noreferrer">Điều khoản sử dụng</a></li>
-          <li><a href="https://tsudev.com/privacy" target="_blank" rel="noopener noreferrer">Chính sách riêng tư</a></li>
-          <li><a href="https://tsudev.com/projects" target="_blank" rel="noopener noreferrer">Sản phẩm khác</a></li>
-        </ul>
-        <ul class="chan-trang__lien-ket">
-          <li><a href="/nhat-ky/">Nhật ký thay đổi</a></li>
-          <li><a href="/dieu-khoan/">Thỏa thuận sử dụng (EULA)</a></li>
-          <li><a href="/ban-quyen/">Bản quyền</a></li>
-          <li><a href={REPO_URL} target="_blank" rel="noopener noreferrer">Mã nguồn</a></li>
-          <li><a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer">Báo lỗi, góp ý</a></li>
-        </ul>
+        <div class="chan-trang__cuoi">
+          <p>© {nam} tsudev</p>
+          <div class="giao-dien" id="giao-dien" role="radiogroup" aria-label="Giao diện" hidden>
+            {cheDo.map((c) => (
+              <button type="button" role="radio" aria-checked={c.ma === 'dark' ? 'true' : 'false'} tabindex={c.ma === 'dark' ? '0' : '-1'}
+                      aria-label={c.ten} title={c.ten} data-chon-giao-dien={c.ma}>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={c.icon} />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </footer>
   </body>

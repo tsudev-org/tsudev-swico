@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "deploy": "npm run build && wrangler deploy",
     "check:a11y": "node scripts/check-a11y.mjs",
+    "check:theme": "node scripts/check-theme.mjs",
     "bao-cao-mau": "node scripts/sinh-bao-cao-mau.mjs"
   },
   "dependencies": {

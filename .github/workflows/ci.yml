@@ -69,6 +69,12 @@ jobs:
         run: npm run build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cai Chromium cho kiem tra trong trinh duyet
+        run: npx playwright install --with-deps chromium
+      - name: Kiem tra kha nang truy cap (axe-core, WCAG 2.2 AA, Sang + Toi)
+        run: npm run check:a11y
+      - name: Kiem tra bo chon giao dien (3 lua chon, mac dinh Toi, CSP production)
+        run: npm run check:theme
 
   smoke-windows:
     name: Smoke test (Windows)
