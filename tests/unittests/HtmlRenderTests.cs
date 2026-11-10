@@ -34,6 +34,25 @@ public class HtmlRenderTests
             "co che do toi tu dong theo he dieu hanh");
     }
 
+    /// <summary>QU-STD-TABLE (.standards/docs/DATA_TABLE.md muc 2, 3, 12): bang liet ke co bo chon so dong.</summary>
+    [Fact]
+    public void Bang_liet_ke_co_bo_chon_so_dong_dung_nam_moc()
+    {
+        var html = new HtmlReportRenderer().Render(Infected.Hw);
+
+        Assert.Contains("data-paged=\"1\"", html);
+        var bo = Regex.Match(html, "<select data-page-size>(.*?)</select>").Groups[1].Value;
+        var moc = Regex.Matches(bo, "<option value=\"(\\d+)\"").Select(m => m.Groups[1].Value);
+        Assert.Equal(new[] { "10", "20", "50", "100", "200" }, moc);
+        Assert.Contains("<option value=\"10\" selected>", bo);
+        // Bo chon dung TRUOC tom tat va phan trang (goc duoi ben trai)
+        var foot = Regex.Match(html, "<div class=\"table-foot\">.*?</div>").Value;
+        Assert.True(foot.IndexOf("data-page-size") < foot.IndexOf("table-sum") && foot.IndexOf("table-sum") < foot.IndexOf("pager"));
+        Assert.Contains("aria-live=\"polite\"", foot);
+        // Khong them trinh xu ly noi tuyen moi ngoai oninput san co (CSP bao cao mau theo bam)
+        Assert.Empty(Regex.Matches(html, "\\son(?!input)[a-z]+=\""));
+    }
+
     [Fact]
     public void Du_lieu_doc_hai_duoc_escape()
     {

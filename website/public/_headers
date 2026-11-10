@@ -24,7 +24,7 @@
 # Nội dung tĩnh, sinh từ dữ liệu giả lập của tools/demo-report, không nhận dữ liệu người dùng.
 /bao-cao-mau/xem/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'none'; script-src 'sha256-V0rftcAoPg+hmvQ1adRaqEX07USmmrcelU4QQdYELnY=' 'unsafe-hashes' 'sha256-b+jt/Pg8+NuFcTimY0JRtCxfCxY63SQYO7/P0k9CyfU='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'sha256-V4UfBk2IPeNeJsoP9cVfSd2Tl7Byvv/LQGalk5pn0Z0=' 'unsafe-hashes' 'sha256-b+jt/Pg8+NuFcTimY0JRtCxfCxY63SQYO7/P0k9CyfU='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'
   X-Robots-Tag: noindex
 
 /luat-phat-hien/detection-rules.json

@@ -6,6 +6,13 @@
 
 ## [Chưa phát hành]
 
+### Thêm
+
+- **Bảng liệt kê trong báo cáo có bộ chọn số dòng** (QU-STD-TABLE, `DATA_TABLE.md`): chân bảng chia ba - bộ chọn
+  `10 / 20 / 50 / 100 / 200` (mặc định 10, nhớ theo từng bảng) ở trái, tóm tắt `1-10 / 36` đọc được bằng trình đọc
+  màn hình, phân trang ở phải. Ô lọc chạy trên toàn bộ dòng rồi mới chia trang; đổi mốc giữ dòng đầu đang xem; in ra
+  giấy vẫn in đủ dòng.
+
 ### Sửa
 
 - **Báo cáo in nguyên văn thẻ HTML.** Mô tả của nhiều mục hiện

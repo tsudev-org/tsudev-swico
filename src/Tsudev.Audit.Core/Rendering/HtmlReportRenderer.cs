@@ -373,9 +373,15 @@ public sealed class HtmlReportRenderer
         sb.Append("</section>\n");
     }
 
+    /// <summary>Moc so dong moi trang (.standards/docs/DATA_TABLE.md muc 2): dung nam moc, mac dinh 10.</summary>
+    internal static readonly int[] PageSizes = { 10, 20, 50, 100, 200 };
+
     private static void AppendTable(StringBuilder sb, DataTable table)
     {
-        sb.Append("<div class=\"table-block\">\n");
+        // Bang liet ke (co o loc) duoc phan trang phia trinh duyet: bao cao la tep mot-tep ngoai tuyen,
+        // khong co may chu, nen "tai lai tu may chu" cua DATA_TABLE la cat lat tren DOM.
+        var paged = table.Searchable && table.Rows.Count > 0;
+        sb.Append(paged ? "<div class=\"table-block\" data-paged=\"1\">\n" : "<div class=\"table-block\">\n");
 
         if (!string.IsNullOrWhiteSpace(table.Title))
             sb.Append("<h3>").Append(E(table.Title)).Append("</h3>\n");
@@ -406,7 +412,19 @@ public sealed class HtmlReportRenderer
             sb.Append("</tr>\n");
         }
 
-        sb.Append("</tbody>\n</table></div>\n</div>\n");
+        sb.Append("</tbody>\n</table></div>\n");
+
+        if (paged)
+        {
+            // Chan vung ban ghi chia ba (DATA_TABLE muc 3): bo chon trai - tom tat giua - phan trang phai.
+            sb.Append("<div class=\"table-foot\"><label class=\"page-size\">Số dòng mỗi trang <select data-page-size>");
+            foreach (var n in PageSizes)
+                sb.Append("<option value=\"").Append(n).Append(n == PageSizes[0] ? "\" selected>" : "\">").Append(n).Append("</option>");
+            sb.Append("</select></label><p class=\"table-sum\" aria-live=\"polite\">")
+              .Append(table.Rows.Count).Append(" dòng</p><nav class=\"pager\" aria-label=\"Phân trang\"></nav></div>\n");
+        }
+
+        sb.Append("</div>\n");
     }
 
     private static void AppendFooter(StringBuilder sb, AuditReport report)
@@ -469,16 +487,77 @@ public sealed class HtmlReportRenderer
         _ => "vd-unknown"
     };
 
+    // Loc + phan trang (DATA_TABLE): JS thuan, khong thu vien ngoai. Su kien cua bo chon / nut trang gan TRONG
+    // script (khong them on*= noi tuyen) - CSP cua bao cao mau tren website chi cho bam cua dung khoi script nay
+    // va cua chuoi "tsudevFilter(this)". Doi khoi nay => cap nhat bam trong website/public/_headers.
     private const string FilterScript = """
-        function tsudevFilter(input) {
-          var q = input.value.toLowerCase();
-          var block = input.closest('.table-block');
-          if (!block) return;
-          var rows = block.querySelectorAll('tbody tr');
-          for (var i = 0; i < rows.length; i++) {
-            rows[i].style.display = rows[i].textContent.toLowerCase().indexOf(q) === -1 ? 'none' : '';
+        (function () {
+          var SIZES = [10, 20, 50, 100, 200];
+          function key(b) { var h = b.querySelector('h3'); return 'swico-page-size:' + (h ? h.textContent : ''); }
+          function readSize(b) {
+            try { var v = parseInt(localStorage.getItem(key(b)), 10); if (SIZES.indexOf(v) >= 0) return v; } catch (e) { }
+            return 10;
           }
-        }
+          function render(b) {
+            var st = b.tsudev, rows = b.querySelectorAll('tbody tr'), match = [], i;
+            for (i = 0; i < rows.length; i++) {
+              if (rows[i].textContent.toLowerCase().indexOf(st.q) === -1) rows[i].style.display = 'none'; else match.push(rows[i]);
+            }
+            var pages = Math.max(1, Math.ceil(match.length / st.size));
+            if (st.page >= pages) st.page = pages - 1;
+            var from = st.page * st.size, to = Math.min(match.length, from + st.size);
+            for (i = 0; i < match.length; i++) match[i].style.display = i >= from && i < to ? '' : 'none';
+            var sum = b.querySelector('.table-sum');
+            sum.textContent = match.length === 0 ? 'Không có dòng nào khớp' :
+              (from + 1) + '-' + to + ' / ' + match.length + (match.length < rows.length ? ' (lọc từ ' + rows.length + ')' : '');
+            var nav = b.querySelector('.pager'); nav.textContent = '';
+            if (pages < 2) return;
+            function btn(label, p, cur, aria) {
+              var x = document.createElement('button'); x.type = 'button'; x.textContent = label;
+              if (aria) x.setAttribute('aria-label', aria);
+              if (cur) x.setAttribute('aria-current', 'page');
+              if (p < 0 || p >= pages) x.disabled = true;
+              x.addEventListener('click', function () { st.page = p; render(b); });
+              nav.appendChild(x);
+            }
+            btn('<', st.page - 1, false, 'Trang trước');
+            var shown = {}, list = [0, st.page - 1, st.page, st.page + 1, pages - 1], last = -1;
+            list.sort(function (a, c) { return a - c; });
+            for (i = 0; i < list.length; i++) {
+              var p = list[i]; if (p < 0 || p >= pages || shown[p]) continue; shown[p] = 1;
+              if (last >= 0 && p > last + 1) { var g = document.createElement('span'); g.textContent = '...'; nav.appendChild(g); }
+              btn(String(p + 1), p, p === st.page, 'Trang ' + (p + 1)); last = p;
+            }
+            btn('>', st.page + 1, false, 'Trang sau');
+          }
+          function init() {
+            var blocks = document.querySelectorAll('.table-block[data-paged]');
+            for (var i = 0; i < blocks.length; i++) (function (b) {
+              b.tsudev = { q: '', page: 0, size: readSize(b) };
+              var sel = b.querySelector('select[data-page-size]');
+              sel.value = String(b.tsudev.size);
+              sel.addEventListener('change', function () {
+                var first = b.tsudev.page * b.tsudev.size, v = parseInt(sel.value, 10);
+                if (SIZES.indexOf(v) < 0) v = 10;
+                b.tsudev.size = v; b.tsudev.page = Math.floor(first / v);
+                try { localStorage.setItem(key(b), String(v)); } catch (e) { }
+                render(b);
+              });
+              render(b);
+            })(blocks[i]);
+          }
+          window.tsudevFilter = function (input) {
+            var b = input.closest('.table-block');
+            if (!b) return;
+            if (!b.tsudev) {
+              var rows = b.querySelectorAll('tbody tr'), q = input.value.toLowerCase();
+              for (var i = 0; i < rows.length; i++) rows[i].style.display = rows[i].textContent.toLowerCase().indexOf(q) === -1 ? 'none' : '';
+              return;
+            }
+            b.tsudev.q = input.value.toLowerCase(); b.tsudev.page = 0; render(b);
+          };
+          if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+        })();
         """;
 
     /// <summary>
@@ -591,6 +670,19 @@ public sealed class HtmlReportRenderer
         tbody tr:nth-child(even){background:var(--c-bg-base)}
         tbody tr:hover{background:var(--c-bg-hover)}
 
+        /* Chan vung ban ghi (DATA_TABLE muc 3): bo chon trai - tom tat giua - phan trang phai */
+        .table-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2) var(--sp-4);
+                    margin-top:var(--sp-2);font-size:var(--fs-sm);color:var(--c-text-muted)}
+        .page-size select{margin-left:var(--sp-2);height:32px;font:inherit;color:var(--c-text-primary);
+                          background:var(--c-bg-surface);border:1px solid var(--c-border-control);border-radius:var(--radius-md)}
+        .table-sum{flex:1;margin:0;text-align:center}
+        .pager{display:flex;gap:var(--sp-1);align-items:center}
+        .pager button{min-width:32px;height:32px;padding:0 var(--sp-2);font:inherit;cursor:pointer;
+                      color:var(--c-text-primary);background:var(--c-bg-surface);
+                      border:1px solid var(--c-border-control);border-radius:var(--radius-md)}
+        .pager button[aria-current="page"]{background:var(--c-primary);border-color:var(--c-primary);color:var(--c-on-primary)}
+        .pager button:disabled{opacity:.45;cursor:not-allowed}
+
         /* Khoi du lieu tho luon dung nen toi o CA HAI che do - chu sang tren nen
            toi la cach doc log va khoa registry de nhat. Mau lay tu bang mau toi
            cua chinh bo token, khong bia them mau moi. */
@@ -607,7 +699,9 @@ public sealed class HtmlReportRenderer
         .foot p{margin:var(--sp-1) 0}
 
         @media print{
-          .nav,.filter{display:none}
+          .nav,.filter,.table-foot{display:none}
+          /* In ra giay: in DU moi dong, khong theo trang dang xem */
+          .table-block[data-paged] tbody tr{display:table-row !important}
           /* In ra giay: giu logo va chu ky de ban in van co nhan dien */
           .brand-logo{-webkit-print-color-adjust:exact;print-color-adjust:exact}
           /* Bang mau in da bi ep ve che do SANG o khoi bien do DesignTokens sinh,
