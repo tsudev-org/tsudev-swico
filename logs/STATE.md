@@ -47,7 +47,8 @@ Nguồn: `docs/STATE.md` mục 3. Ở đây chỉ ghi mã việc + trạng thái
       chủ project cho phép trực tiếp**. `docs/STATE.md` mục QU-4.
 - [ ] **QU-7** ⬜ Hai món quy ước còn nợ sau QU-4, **làm được ngay**: (a) số
       **căn phải** trong bảng - `DataTable` chưa mang kiểu cột nên phải thêm;
-      (b) **Warm Mode** cần nút chuyển + chỗ lưu lựa chọn. `docs/STATE.md` mục QU-4.
+      (b) ~~**Warm Mode** cần nút chuyển~~ - BỎ: chủ dự án bỏ chế độ Ấm toàn hệ sinh thái (phiếu `20261110-05`,
+      10/11/2026); chỉ còn Sáng / Tối / Hệ thống. `docs/STATE.md` mục QU-4.
 
 - [x] **QU-STD-AUTH** ✅ S007 kiểm chứng: không có màn hình đăng nhập; chạy thật trên Windows 11 ở chế độ khách đủ chức năng. Kết nối duy nhất là kiểm tra bản mới (công bố trong PRIVACY.md, tắt bằng `--no-update-check`). Dòng cũ: Repo này là **hạng C - ngoại tuyến** (tài liệu nêu đích danh). Việc ở đây là **kiểm chứng chứ không phải cài đặt**: chạy đủ chức năng lõi ở chế độ khách, `MUST NOT` chặn chức năng nào sau màn hình đăng nhập, `MUST NOT` gọi mạng ngầm khi chưa đăng nhập. Checklist: `.standards/docs/AUTH_AND_ACCOUNT.md` mục 17, hai dòng cuối. Một phần mềm rà quét máy tính mà tự gọi ra ngoài là thứ đầu tiên bị công cụ bảo mật gắn cờ.
 - [ ] **QU-STD-TABLE** Thêm bộ chọn số bản ghi `10/20/50/100/200` (mặc định `10`, góc dưới bên trái) cho các bảng liệt kê chương trình, gói UWP, dịch vụ, tác vụ theo lịch và mục khởi động. Chuẩn: `.standards/docs/DATA_TABLE.md` mục 12.

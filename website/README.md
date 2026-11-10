@@ -1,7 +1,8 @@
 # Website swico.tsudev.com
 
-Trang sản phẩm của tsudev SWICO: [Astro](https://astro.build) dựng trang tĩnh, **không có JavaScript phía trình
-duyệt**, host bằng Cloudflare Workers Static Assets (Worker `tsudev-swico`, chỉ phục vụ tệp tĩnh, không chạy mã; tên
+Trang sản phẩm của tsudev SWICO: [Astro](https://astro.build) dựng trang tĩnh; JavaScript phía trình duyệt chỉ có
+`public/theme.js` (bộ chọn giao diện Sáng/Tối/Hệ thống ở chân trang, mặc định Tối, khóa `tsudev-theme` như tsudev.com;
+nạp chặn trong `<head>`, CSP `script-src 'self'`), host bằng Cloudflare Workers Static Assets (Worker `tsudev-swico`, chỉ phục vụ tệp tĩnh, không chạy mã; tên
 miền con `swico.tsudev.com` của hệ tsudev.com, cấu hình ở `wrangler.jsonc`). Khung dùng chung với `files.tsudev.com`.
 
 * **Một nguồn tài liệu.** Nội dung lấy trực tiếp từ tệp của repo lúc build - sửa ở đó, không sửa trong `website/`:
@@ -21,11 +22,13 @@ miền con `swico.tsudev.com` của hệ tsudev.com, cấu hình ở `wrangler.j
 * Tài sản thương hiệu (`public/favicon*`, `android-chrome-*`, `og-image.png`, `brand/`) sinh bằng
   `scripts/brand_assets.py` từ dây chuyền thương hiệu của repo `tsudev-org/tsudev`; không sửa tay.
 * Font Be Vietnam Pro tự host (SIL OFL 1.1); `src/styles/tokens.css` sao nguyên văn `.standards/tokens/tokens.css`.
-* Header bảo mật ở `public/_headers`: CSP chặt cho mọi trang; riêng `/bao-cao-mau/xem/*` nới cho CSS/JS nội tuyến vì
-  đó là tệp báo cáo một-tệp do chương trình sinh ra (vẫn không nạp gì từ nguồn ngoài, `noindex`).
+* Header bảo mật ở `public/_headers`: CSP chặt cho mọi trang; riêng `/bao-cao-mau/xem/*` cho CSS nội tuyến và script
+  nội tuyến THEO BĂM (`sha256` + `'unsafe-hashes'` cho đúng trình xử lý `tsudevFilter(this)`) vì đó là tệp báo cáo
+  một-tệp do chương trình sinh ra (vẫn không nạp gì từ nguồn ngoài, `noindex`). Sinh lại báo cáo mà đổi script thì
+  `check-dist` báo băm lệch: cập nhật băm trong `_headers`.
 * `scripts/check-dist.mjs` chạy sau mỗi lần build: title, `og:site_name`, canonical, độ dài mô tả, chặn CSS/JS nội
   tuyến, `rel` của liên kết ngoài, em-dash, liên kết nội bộ gãy. `npm run check:a11y`: axe-core WCAG 2.2 AA mọi trang
-  kể cả báo cáo mẫu, sáng + tối.
+  kể cả báo cáo mẫu, Sáng + Tối. `npm run check:theme`: bộ chọn giao diện trong Chromium với CSP production.
 
 ```bash
 cd website

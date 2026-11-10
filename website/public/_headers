@@ -1,6 +1,6 @@
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
@@ -18,11 +18,13 @@
   Content-Type: text/plain; charset=utf-8
 
 # Báo cáo mẫu là đúng tệp HTML chương trình sinh ra: CSS, JS (ô lọc bảng) và logo nằm nội tuyến trong một tệp để mở
-# được khi không có Internet. Nới riêng vùng này cho nội tuyến; vẫn không nạp gì từ nguồn ngoài, không cho nhúng khung.
+# được khi không có Internet. Script chỉ được chạy theo BĂM (phiếu 20261110-05): một khối <script> của báo cáo và đúng
+# chuỗi trình xử lý oninput="tsudevFilter(this)" ('unsafe-hashes' chỉ mở cho băm đã liệt kê, không phải mọi nội tuyến).
+# Sinh lại báo cáo (npm run bao-cao-mau) mà đổi script thì scripts/check-dist.mjs báo băm lệch. CSS vẫn nội tuyến.
 # Nội dung tĩnh, sinh từ dữ liệu giả lập của tools/demo-report, không nhận dữ liệu người dùng.
 /bao-cao-mau/xem/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'sha256-V0rftcAoPg+hmvQ1adRaqEX07USmmrcelU4QQdYELnY=' 'unsafe-hashes' 'sha256-b+jt/Pg8+NuFcTimY0JRtCxfCxY63SQYO7/P0k9CyfU='; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'
   X-Robots-Tag: noindex
 
 /luat-phat-hien/detection-rules.json

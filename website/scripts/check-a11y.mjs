@@ -1,5 +1,6 @@
 // Kiểm tra khả năng truy cập (ACCESSIBILITY.md của tsudev) bằng axe-core: mọi trang trong dist/,
-// cả chế độ sáng và tối (prefers-color-scheme), quy tắc WCAG 2.0/2.1/2.2 mức A và AA.
+// cả hai chế độ Sáng và Tối (trang web: chọn qua localStorage "tsudev-theme" như người dùng bấm bộ chọn ở chân trang;
+// báo cáo mẫu /bao-cao-mau/xem/: theo prefers-color-scheme như tệp báo cáo thật), quy tắc WCAG 2.0/2.1/2.2 mức A và AA.
 // Chạy sau `npm run build`: `npm run check:a11y` (CI: website.yml). Cần Chromium của Playwright:
 // `npx playwright install --with-deps chromium`.
 import { createServer } from 'node:http';
@@ -53,9 +54,14 @@ let total = 0;
 const list = pages(dist);
 for (const scheme of ['light', 'dark']) {
   const context = await browser.newContext({ colorScheme: scheme });
+  await context.addInitScript((t) => { try { localStorage.setItem('tsudev-theme', t); } catch { /* trang không có quyền lưu */ } }, scheme);
   for (const path of list) {
     const page = await context.newPage();
     await page.goto(base + path, { waitUntil: 'load' });
+    if (!path.startsWith('/bao-cao-mau/xem/')) {
+      const thucTe = await page.evaluate(() => document.documentElement.dataset.theme);
+      if (thucTe !== scheme) { total++; console.error(`[a11y] LỖI ${scheme} ${path}: data-theme = ${thucTe}`); }
+    }
     const { violations } = await new AxeBuilder({ page }).withTags(tags).analyze();
     for (const v of violations) {
       total++;
