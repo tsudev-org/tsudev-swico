@@ -10,6 +10,7 @@ const vd = ban?.goi.find((g) => g.ma === 'setup')?.ten ?? 'tsudev-swico_<phiên 
     <nav class="tai-lieu__menu" aria-label="Tải về">
       <p>Tải về</p>
       <ul>
+        <li><a href="#cai-bang-lenh">Cài bằng lệnh</a></li>
         <li><a href="#chon-goi">Chọn gói</a></li>
         <li><a href="#yeu-cau">Yêu cầu</a></li>
         <li><a href="#kiem-tra">Kiểm tra tệp</a></li>
@@ -30,6 +31,15 @@ const vd = ban?.goi.find((g) => g.ma === 'setup')?.ten ?? 'tsudev-swico_<phiên 
           <div class="chu-y"><p><strong>Bản phát hành đầu tiên đang được chuẩn bị.</strong> Khi có, danh sách gói kèm SHA-256 hiện ngay tại đây và ở <a href={RELEASES_URL} target="_blank" rel="noopener noreferrer">trang phát hành trên GitHub</a>.</p></div>
         </>
       )}
+
+      <h2 id="cai-bang-lenh">Cài bằng lệnh</h2>
+      <p>Cách nhanh nhất, tự cập nhật về sau; trình quản lý gói tự kiểm mã SHA-256 trước khi cài.</p>
+      <h3>winget (bộ cài, có sẵn trên Windows 10/11)</h3>
+      <pre tabindex="0"><code>winget install --id tsudev.SWICO -e</code></pre>
+      <h3>Scoop (bản portable, không cần quyền quản trị để cài)</h3>
+      <pre tabindex="0"><code>scoop bucket add tsudev https://github.com/tsudev-org/scoop-bucket
+scoop install tsudev/tsudev-swico</code></pre>
+      <p>Bản Scoop thêm lệnh <code>tsudev-swico</code>; khi chạy, SWICO vẫn xin quyền Administrator vì các bước đọc bản quyền cần quyền đó. Mã nguồn gói: <a href="https://github.com/microsoft/winget-pkgs/tree/master/manifests/t/tsudev/SWICO" target="_blank" rel="noopener noreferrer">microsoft/winget-pkgs</a>, <a href="https://github.com/tsudev-org/scoop-bucket" target="_blank" rel="noopener noreferrer">tsudev-org/scoop-bucket</a>.</p>
 
       <h2 id="chon-goi">Chọn gói</h2>
       <p>Ba gói chứa <strong>cùng một chương trình</strong>, chỉ khác cách giao tới máy đích.</p>
