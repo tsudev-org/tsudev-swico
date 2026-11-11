@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "name": "tsudev-swico",
+  "winget": "tsudev.SWICO",
+  "homepage": "https://swico.tsudev.com",
+  "license": "Apache-2.0",
+  "description": {
+    "vi": "Kiểm tra bản quyền Windows, Office và thu thập cấu hình phần cứng",
+    "en": "Windows and Office license audit and hardware inventory"
+  },
+  "release": {
+    "repo": "tsudev-org/tsudev-swico",
+    "tagRegex": "^v(?<version>\\d+\\.\\d+\\.\\d+\\.\\d+)$",
+    "sums": "SHA256SUMS.txt"
+  },
+  "assets": {
+    "windows-x64": {
+      "file": "swico-portable-{version}.zip",
+      "kind": "portable",
+      "bin": "swico.exe"
+    },
+    "windows-x64-installer": {
+      "file": "swico-setup-{version}.exe",
+      "kind": "installer",
+      "installer": "inno"
+    }
+  },
+  "channels": [
+    "winget",
+    "scoop"
+  ],
+  "planned": []
+}
