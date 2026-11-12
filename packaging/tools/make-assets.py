@@ -164,6 +164,16 @@ if __name__ == "__main__":
         open(out, "wb").write(data)
         print(f"  {out}: {nw}x{px_h}, {len(data)} byte")
 
+    # Tu day tro xuong (anh trinh thuat si, swico.ico, favicon) dung LOGO SAN PHAM SWICO
+    # (chu du an giao 13/11/2026), khong phai logo tsudev: nguon la ban vuong trong suot do
+    # website/scripts/brand-assets.mjs sinh tu assets/brand/source/logo-swico.png. Logo
+    # tsudev-logo-{72,144} o tren giu nguyen vi bao cao HTML ghi ten NHA LAM (tsudev).
+    app_src = "assets/brand/app/icon-512.png"
+    if not os.path.exists(app_src):
+        raise SystemExit(f"Khong tim thay {app_src} - chay: node website/scripts/brand-assets.mjs")
+    w, h, px = decode_png(app_src)
+    print(f"nguon logo san pham: {app_src} {w}x{h}")
+
     # Anh cho trinh thuat si cua Inno Setup - bat buoc la BMP.
     lw = round(w * 120 / h)
     small = resize(w, h, px, lw, 120)

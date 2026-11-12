@@ -65,6 +65,8 @@ jobs:
           cache: npm
           cache-dependency-path: website/package-lock.json
       - run: npm ci
+      - name: Tài sản thương hiệu khớp ảnh gốc (brand-assets --check)
+        run: node scripts/brand-assets.mjs --check
       - name: Build + check-dist
         run: npm run build
         env:
