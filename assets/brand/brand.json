@@ -1,0 +1,16 @@
+{
+  "_ghi_chu": "Cấu hình dây chuyền thương hiệu (website/scripts/brand-assets.mjs). Đổi logo: thay ảnh ở source/, sửa tệp này nếu cần, chạy `node website/scripts/brand-assets.mjs`. CI chạy với --check.",
+  "id": "swico",
+  "name": "tsudev SWICO",
+  "source": "source/logo-swico.png",
+  "mode": "tile",
+  "tileRadius": 0.22,
+  "solidBg": "#2C3942",
+  "ogGlow": "#24323b",
+  "ogAccent": "#e5e7eb",
+  "domain": "swico.tsudev.com",
+  "ogLines": [
+    "Kiểm tra bản quyền Windows, Office",
+    "và cấu hình phần cứng"
+  ]
+}

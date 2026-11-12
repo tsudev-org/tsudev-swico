@@ -20,7 +20,7 @@ miền con `swico.tsudev.com` của hệ tsudev.com, cấu hình ở `wrangler.j
   trình, chạy trên hai máy **giả lập** (`tools/demo-report`): không bao giờ có dữ liệu máy thật. Đổi giao diện báo cáo
   thì chạy lại `npm run bao-cao-mau` (cần .NET SDK 8; trên Linux cài font Noto Color Emoji để ký hiệu hiện như Windows).
 * Tài sản thương hiệu (`public/favicon*`, `android-chrome-*`, `og-image.png`, `brand/`) sinh bằng
-  `scripts/brand_assets.py` từ dây chuyền thương hiệu của repo `tsudev-org/tsudev`; không sửa tay.
+  `scripts/brand-assets.mjs` từ MỘT ảnh gốc `assets/brand/source/` (cấu hình `assets/brand/brand.json`); không sửa tay - đổi logo: thay ảnh gốc rồi `node website/scripts/brand-assets.mjs`, CI chạy `--check`.
 * Font Be Vietnam Pro tự host (SIL OFL 1.1); `src/styles/tokens.css` sao nguyên văn `.standards/tokens/tokens.css`.
 * Header bảo mật ở `public/_headers`: CSP chặt cho mọi trang; riêng `/bao-cao-mau/xem/*` cho CSS nội tuyến và script
   nội tuyến THEO BĂM (`sha256` + `'unsafe-hashes'` cho đúng trình xử lý `tsudevFilter(this)`) vì đó là tệp báo cáo
